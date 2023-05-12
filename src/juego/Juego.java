@@ -12,6 +12,7 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	
 	// Variables y métodos propios de cada grupo
+	private Nave nave;
 	Meteorito[] meteorito;
 	
 	Random random = new Random();
@@ -20,12 +21,14 @@ public class Juego extends InterfaceJuego
 	Juego()
 	{
 		// Inicializa el objeto entorno
-		this.entorno = new Entorno(this, "Lost Galaxian, Sharon - Grupo Alguno - v1", 800, 600);
+		this.entorno = new Entorno(this, "Lost Galaxian, Sharon - Grupo 2 - v1", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
 		
 		meteorito = new Meteorito[randomNumber];
 		cantMeteorito();
+		
+		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -62,6 +65,14 @@ public class Juego extends InterfaceJuego
 			meteorito[i].dibujarse(entorno);
 		}
 		
+		nave.dibujar(entorno);
+		
+		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+			nave.derecha();
+		}
+		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+			nave.izquierda();
+		}
 
 	}
 	
