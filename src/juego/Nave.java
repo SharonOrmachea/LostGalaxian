@@ -29,8 +29,8 @@ public class Nave
 		this.angulo=-1.5708;
 		this.naveX = 400;
 		this.naveY = 560;
-		img1 = Herramientas.cargarImagen("navee.png");
-		img2 = Herramientas.cargarImagen("navee.png");
+		//img1 = Herramientas.cargarImagen("navee.png");
+		//img2 = Herramientas.cargarImagen("navee.png");
 		
 	}
 	public double naveGetX() {
