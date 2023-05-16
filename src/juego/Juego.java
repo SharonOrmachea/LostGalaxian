@@ -67,12 +67,13 @@ public class Juego extends InterfaceJuego
 		
 		nave.dibujar(entorno);
 		
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-			nave.derecha();
-		}
-		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-			nave.izquierda();
-		}
+		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
+			nave.moverIzquierda();
+		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
+			nave.moverDerecha();
+		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
+			nave.Disparar();
+			nave.moverDisparo();
 
 	}
 	
