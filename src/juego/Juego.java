@@ -1,52 +1,49 @@
 package juego;
 
-
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
 import java.util.Random;
 
-public class Juego extends InterfaceJuego
-{
+public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	
 	// Variables y métodos propios de cada grupo
 	private Nave nave;
-	Meteorito[] meteorito;
+	
+	private Meteorito[] asteroide;
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
 	
-	Juego()
-	{
+	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Lost Galaxian, Sharon - Grupo 2 - v1", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
 		
-		meteorito = new Meteorito[randomNumber];
-		cantMeteorito();
+		this.nave = new Nave(this.entorno);
 		
-		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
+		listaMeteorito();
 
 		// Inicia el juego!
 		this.entorno.iniciar();
-		// System.out.println(randomNumber);
 	}
 	
-	public void cantMeteorito() {
-		int contador = 0;
+	public void listaMeteorito() {
 		
-		int x = 0;
-		int y = 0;
+		Random random = new Random();
+		int randomNumber = random.nextInt(3) + 4;
+		int ejeY = -50;
 		
-		while(contador < meteorito.length) {
-			x += 100;
-
-			meteorito[contador] = new Meteorito(x, y);
-			contador++;
+		this.asteroide = new Meteorito[randomNumber];
+		
+		for (int i = 0; i < randomNumber; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			this.asteroide[i] = new Meteorito(randomNumberEjeX, ejeY += 50);
 		}
+		
 	}
 
 	/**
@@ -55,31 +52,29 @@ public class Juego extends InterfaceJuego
 	 * actualizar el estado interno del juego para simular el paso del tiempo 
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
-	public void tick()
-	{
+	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
-		// meteorito.dibujarse(entorno);
 		
-		for(int i = 0; i < meteorito.length; i++) {
-			meteorito[i].dibujarse(entorno);
+		nave.dibujarse(entorno);
+		
+		for(int i = 0; i < this.asteroide.length; i++ ) {
+			asteroide[i].dibujarse(entorno);
 		}
 		
-		nave.dibujar(entorno);
-		
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-			nave.derecha();
-		}
-		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-			nave.izquierda();
-		}
+		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
+			nave.moverIzquierda();
+		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
+			nave.moverDerecha();
+		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
+			nave.Disparar();
+			nave.moverDisparo();
 
 	}
 	
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Juego juego = new Juego();
 		
 	}
