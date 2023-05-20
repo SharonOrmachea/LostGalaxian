@@ -22,7 +22,6 @@ public class Meteorito {
 	public Meteorito(int x, int y) {
 		this.x = x;
 		this.y = y;
-		
 		img = Herramientas.cargarImagen("Meteorito.png");
 		
 		

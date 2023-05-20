@@ -1,4 +1,5 @@
 package juego;
+import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
 
@@ -9,31 +10,20 @@ public class Destructor {
 	private double x, y;
 	private double angulo;
 	private boolean disparando = false;
-	private double escala;
-	private Entorno entorno;
-	private int entornoAncho;
-	private int entornoAlto;
+	private double ancho = 800;
+	private double alto = 500;
 	private double destructorAncho;
 	private Ion proyectil;
-	private Image img1;
+	Image img;
 	// Para hacer un numero random entre 20 y 790;
 	Random random = new Random();
 	double randomX = random.nextDouble(790-20+1) + 25;
 	
 	// Constructor destructor
-	public Destructor(Entorno entorno) {
-		this.entorno = entorno;
-		this.entornoAncho = entorno.ancho();
-		this.entornoAlto = entorno.alto();
-		this.x = 400;
-		this.y = 560;
-		this.img1 = Herramientas.cargarImagen("Destructor.png");
-	}
-	
-	// Funcion que dibuja el destructor dentro del entorno
-	public void dibujarse(Entorno entorno) {
-		entorno.dibujarImagen(img1, this.x, this.y, this.angulo, 0.1);
-		System.out.println("Aparicion destructor");
+	public Destructor(double x, double y) {
+		this.x = x;
+		this.y = y;
+		img = Herramientas.cargarImagen("destructor2");
 	}
 	
 	// Getters de x e y de destructor
@@ -45,19 +35,10 @@ public class Destructor {
 		return this.y;
 	}
 	
-	// Setear los valores de x
-	public void setX(double x) {
-		this.x = x;
-	}
-	
-	public void setY(double y) {
-		this.y = y;
-	}
-	
 	// Funcion que mueve automaticamente a los destructores
-	public void moverse() {
+	public void moverse(double x, double y) {
 		// Para que se mueva a la derecha
-		if(this.x+5+(this.destructorAncho/2) <= this.entornoAncho) {
+		if(this.x+5+(this.destructorAncho/2) <= this.ancho) {
 			this.x = this.x+3;
 			System.out.println("Movimiento derecho de destructor");
 		}
@@ -69,11 +50,9 @@ public class Destructor {
 		}
 		
 		// Para que se mueva para abajo
-		if(this.y-5-(this.destructorAncho/2) <= this.entornoAlto) {
+		if(this.y-5-(this.destructorAncho/2) <= this.alto) {
 			this.y = this.y - 3;
-		} else {
-			this.redibujar(entorno);
-		}
+		} 
 		
 	}
 	
@@ -85,11 +64,13 @@ public class Destructor {
 		}
 	}
 	
-	
-	// Método para reiniciar posicion del Destructor si no muere y no colisiona con la Nave
-	private void redibujar(Entorno entorno) {
-		entorno.dibujarImagen(img1, this.x, this.y, this.angulo, this.escala);
+	// Funcion que dibuja el destructor dentro del entorno
+	public void dibujarse(Entorno entorno) {
+			entorno.dibujarImagen(img, this.x, this.y, angulo, alto);
+			this.moverse(this.x, this.y);
+			System.out.println("Aparicion destructor");
 	}
+		
 	
 	
 	public void borrarProyectil() {

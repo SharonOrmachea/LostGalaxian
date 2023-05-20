@@ -30,6 +30,7 @@ public class Juego extends InterfaceJuego
 		cantMeteorito();
 		// Destructores
 		destructor = new Destructor[4];
+		cantDestructores();
 		
 		
 		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
@@ -46,9 +47,22 @@ public class Juego extends InterfaceJuego
 		int y = 0;
 		
 		while(contador < meteorito.length) {
-			x += 100;
+			x += 50;
 
 			meteorito[contador] = new Meteorito(x, y);
+			contador++;
+		}
+	}
+	
+	public void cantDestructores() {
+		int contador = 0;
+		double x = 0;
+		double y = 0;
+		
+		
+		while(contador < destructor.length) {
+			x += 50;
+			destructor[contador] = new Destructor(x, y);
 			contador++;
 		}
 	}
