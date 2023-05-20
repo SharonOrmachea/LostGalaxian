@@ -14,6 +14,7 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	private Nave nave;
 	Meteorito[] meteorito;
+	Destructor[] destructor;
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
@@ -27,6 +28,9 @@ public class Juego extends InterfaceJuego
 		
 		meteorito = new Meteorito[randomNumber];
 		cantMeteorito();
+		// Destructores
+		destructor = new Destructor[4];
+		
 		
 		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
 
@@ -63,6 +67,10 @@ public class Juego extends InterfaceJuego
 		
 		for(int i = 0; i < meteorito.length; i++) {
 			meteorito[i].dibujarse(entorno);
+		}
+		
+		for(int i = 0; i < destructor.length; i++) {
+			destructor[i].dibujarse(entorno);
 		}
 		
 		nave.dibujar(entorno);
