@@ -12,6 +12,8 @@ public class Destructor {
 	private boolean disparando = false;
 	private double ancho = 800;
 	private double alto = 500;
+	Entorno entorno;
+	private int entornoAncho;
 	private double destructorAncho;
 	private Ion proyectil;
 	Image img;
@@ -20,7 +22,9 @@ public class Destructor {
 	double randomX = random.nextDouble(790-20+1) + 25;
 	
 	// Constructor destructor
-	public Destructor(double x, double y) {
+	public Destructor(Entorno entorno) {
+		this.entorno = entorno;
+		this.entornoAncho = entorno.ancho();
 		this.x = x;
 		this.y = y;
 		img = Herramientas.cargarImagen("destructor2");
@@ -38,7 +42,7 @@ public class Destructor {
 	// Funcion que mueve automaticamente a los destructores
 	public void moverse(double x, double y) {
 		// Para que se mueva a la derecha
-		if(this.x+5+(this.destructorAncho/2) <= this.ancho) {
+		if(this.x+5+(this.destructorAncho/2) <= this.entornoAncho) {
 			this.x = this.x+3;
 			System.out.println("Movimiento derecho de destructor");
 		}
@@ -52,7 +56,9 @@ public class Destructor {
 		// Para que se mueva para abajo
 		if(this.y-5-(this.destructorAncho/2) <= this.alto) {
 			this.y = this.y - 3;
-		} 
+		} else {
+			this.dibujarse(entorno);
+		}
 		
 	}
 	
@@ -71,7 +77,19 @@ public class Destructor {
 			System.out.println("Aparicion destructor");
 	}
 		
-	
+	public void moverDisparo() {
+		if(disparando && enPantalla()) {
+			this.proyectil.setY(2);
+			this.proyectil.redibujar(this.entorno);
+		}
+	}
+	public boolean enPantalla () {
+		if(proyectil.getY()+20<0) {
+			borrarProyectil();
+			return false;
+		}else
+			return true;
+	}
 	
 	public void borrarProyectil() {
 		this.disparando = false;

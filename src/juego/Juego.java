@@ -14,7 +14,7 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	private Nave nave;
 	Meteorito[] meteorito;
-	Destructor[] destructor;
+	// Destructor[] destructor;
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
@@ -29,8 +29,7 @@ public class Juego extends InterfaceJuego
 		meteorito = new Meteorito[randomNumber];
 		cantMeteorito();
 		// Destructores
-		destructor = new Destructor[4];
-		cantDestructores();
+		Destructor destructor1 = new Destructor(this.entorno);
 		
 		
 		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
@@ -54,6 +53,7 @@ public class Juego extends InterfaceJuego
 		}
 	}
 	
+	/*
 	public void cantDestructores() {
 		int contador = 0;
 		double x = 0;
@@ -62,10 +62,10 @@ public class Juego extends InterfaceJuego
 		
 		while(contador < destructor.length) {
 			x += 50;
-			destructor[contador] = new Destructor(x, y);
+			destructor[contador] = new Destructor(entorno);
 			contador++;
 		}
-	}
+	}*/
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -83,10 +83,11 @@ public class Juego extends InterfaceJuego
 			meteorito[i].dibujarse(entorno);
 		}
 		
+		/*
 		for(int i = 0; i < destructor.length; i++) {
 			destructor[i].dibujarse(entorno);
-		}
-		
+		}*/
+		destructor1.dibujarse(entorno);
 		nave.dibujar(entorno);
 		
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
