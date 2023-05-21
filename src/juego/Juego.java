@@ -30,6 +30,13 @@ public class Juego extends InterfaceJuego
 		cantMeteorito();
 		// Destructores
 		Destructor destructor1 = new Destructor(this.entorno);
+		destructor1.setX(20);
+		Destructor destructor2 = new Destructor(this.entorno);
+		destructor2.setX(40);
+		Destructor destructor3 = new Destructor(this.entorno);
+		destructor3.setX(60);
+		Destructor destructor4 = new Destructor(this.entorno);
+		destructor4.setX(80);
 		
 		
 		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);

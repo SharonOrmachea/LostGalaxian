@@ -26,7 +26,7 @@ public class Destructor {
 		this.entorno = entorno;
 		this.entornoAncho = entorno.ancho();
 		this.x = x;
-		this.y = y;
+		this.y = 700;
 		img = Herramientas.cargarImagen("destructor2");
 	}
 	
@@ -37,6 +37,10 @@ public class Destructor {
 	
 	public double destructorGetY() {
 		return this.y;
+	}
+	
+	public void setX(double x) {
+		this.x = x;
 	}
 	
 	// Funcion que mueve automaticamente a los destructores
