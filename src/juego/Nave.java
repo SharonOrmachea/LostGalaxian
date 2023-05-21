@@ -15,7 +15,7 @@ public class Nave {
 	private int	entornoAncho;
 	private double naveX;
 	private double naveY;
-	double naveAncho = 30;
+	private double naveAncho = 30;
 	private double angulo;
 	private Image  img1;
 	private Image img2;
@@ -29,7 +29,7 @@ public class Nave {
 		this.angulo=-1.5708;
 		this.naveX = 400;
 		this.naveY = 560;
-		//img1 = Herramientas.cargarImagen("navee.png");
+		this.img1 = Herramientas.cargarImagen("nave.png");
 		//img2 = Herramientas.cargarImagen("navee.png");
 		
 	}
@@ -44,6 +44,8 @@ public class Nave {
 	public void dibujarse(Entorno entorno)
 	{
 		entorno.dibujarTriangulo(this.naveX, this.naveY, 50, 30, this.angulo, Color.yellow);
+		entorno.dibujarImagen(img1, this.naveX, this.naveY, 0, 0.2);
+		
 	
 	}
 	

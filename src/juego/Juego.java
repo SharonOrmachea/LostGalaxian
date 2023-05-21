@@ -94,13 +94,13 @@ public class Juego extends InterfaceJuego
 		for(int i = 0; i < destructor.length; i++) {
 			destructor[i].dibujarse(entorno);
 		}*/
-		nave.dibujar(entorno);
+		nave.dibujarse(entorno);
 		
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-			nave.derecha();
+			nave.moverDerecha();
 		}
 		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-			nave.izquierda();
+			nave.moverIzquierda();
 		}
 
 	}
