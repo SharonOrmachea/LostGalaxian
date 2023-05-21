@@ -70,7 +70,7 @@ public class Destructor {
 	public void disparar() {
 		if(!disparando) {
 			this.disparando = true;
-			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()-60, 30, 50, 3);
+			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+60, 30, 50, 3);
 		}
 	}
 	
