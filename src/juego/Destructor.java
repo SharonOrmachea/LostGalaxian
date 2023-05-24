@@ -47,29 +47,6 @@ public class Destructor {
 		this.y += y;
 	}
 	
-	// Funcion que mueve automaticamente a los destructores
-	/*
-	public void moverse(double x, double y) {
-		// Para que se mueva a la derecha
-		if(this.x+5+(this.destructorAncho/2) <= this.entornoAncho) {
-			this.x = this.x+3;
-			System.out.println("Movimiento derecho de destructor");
-		}
-		
-		// Para que se mueva a la izquierda
-		if(this.x-5-(this.destructorAncho/2) >= 0) {
-			this.x = this.x - 3;
-			System.out.println("Movimiento izquierdo de destructor");
-		}
-		
-		// Para que se mueva para abajo
-		if(this.y+5-(this.destructorAncho/2) >= this.alto) {
-			this.y = this.y + 3;
-		} else {
-			this.dibujarse(entorno);
-		}
-		
-	}*/
 	
 	Random random1 = new Random();
     double randomNumber = random1.nextInt(2);
