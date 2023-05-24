@@ -18,6 +18,17 @@ public class ListaMeteorito {
 			lista[i] = new Meteorito(randomNumberEjeX, 0);
 		}
 		
+		sacarMeteorito();
+		
+		
+	}
+	
+	public void sacarMeteorito() {
+		for(int i = 0; i < this.lista.length; i++ ) {
+			if(lista[i].exploto) {
+				lista[i] = null;
+			}
+		}
 	}
 	
 	

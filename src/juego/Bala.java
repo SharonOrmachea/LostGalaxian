@@ -7,14 +7,15 @@ import entorno.Herramientas;
 
 
 public class Bala {
-	private double x;
-	private double y;
+	double x;
+	double y;
 	private double alto;
 	private double ancho;
 	private double angulo;
 	private double velocidad;
 	private double escala;
 	private Image img4;
+	
 	public Bala (double x,double y, double alto, double ancho, double velocidad) {
 		this.angulo=0;
 		this.escala=0.1;
@@ -24,6 +25,9 @@ public class Bala {
 		this.ancho=ancho;
 		this.velocidad=velocidad;
 		this.img4= Herramientas.cargarImagen("disparo.png");
+		
+		System.out.println(this.y);
+		
 	}
 	public void dibujar (Entorno entorno) {
 		entorno.dibujarImagen(img4 , this.x, this.y, this.angulo, this.escala);
@@ -33,6 +37,7 @@ public class Bala {
 	}
 	public void setY(double y) {
 		this.y-=y;
+		System.out.println(this.y);
 	}
 	public void redibujar(Entorno entorno) {
 		entorno.dibujarImagen(img4 , this.x, this.y, this.angulo, this.escala);

@@ -13,13 +13,17 @@ public class Meteorito {
 	double x;
 	double y;
 	double angulo;
-
+	boolean exploto;
 	Image img;
+	
+	Bala municion;
+	Nave nave;
 	
 	
 	public Meteorito(double x, int y) {
 		this.x = x;
 		this.y = y;
+		this.exploto = false;
 		
 		img = Herramientas.cargarImagen("Meteorito.png");
 		
@@ -57,6 +61,11 @@ public class Meteorito {
 		this.girar();
 		this.caer(this.x, this.y);	
 
+	}
+	
+	public void exploto() {
+		img = Herramientas.cargarImagen("Meteorito-Explosion.png");
+		this.exploto = true;
 	}
 	
 }
