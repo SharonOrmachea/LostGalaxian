@@ -1,21 +1,21 @@
 package juego;
-import entorno.Entorno;
-import entorno.Herramientas;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.image.*;
 
-public class Nave {
-	
-	
+import entorno.Entorno;
+import entorno.Herramientas;
+
+public class Nave 
+{
+	// Variables de instancia
 	private boolean disparando = false;
 	private Entorno entorno;
 	private Bala municion;
 	private int	entornoAncho;
 	private double naveX;
 	private double naveY;
-	private double naveAncho = 30;
+	public double naveAncho = 30;
 	private double angulo;
 	private Image  img1;
 	private Image img2;
@@ -88,5 +88,4 @@ public class Nave {
 		this.disparando=false;
 		this.municion=null;
 	}
-
 }

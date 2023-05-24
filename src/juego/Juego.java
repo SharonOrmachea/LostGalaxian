@@ -1,114 +1,122 @@
 package juego;
 
-
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
 import java.util.Random;
 
-public class Juego extends InterfaceJuego
-{
+public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	
 	// Variables y métodos propios de cada grupo
 	private Nave nave;
-	Meteorito[] meteorito;
-	// Destructor[] destructor;
+	
+	private Meteorito[] asteroide;
+	
+	// private ListaMeteorito listaMeteorito;
+	
+	private Destructor[] destructor;
+	
+	private Bala municion;
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
 	
-	Juego()
-	{
+	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Lost Galaxian, Sharon - Grupo 2 - v1", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
 		
-		meteorito = new Meteorito[randomNumber];
-		cantMeteorito();
+		this.nave = new Nave(this.entorno);
+		
+		listaMeteorito();
+		listaMonstruos();
+		
 		// Destructores
-		Destructor destructor1 = new Destructor(this.entorno);
-		destructor1.setX(20);
-		Destructor destructor2 = new Destructor(this.entorno);
-		destructor2.setX(40);
-		Destructor destructor3 = new Destructor(this.entorno);
-		destructor3.setX(60);
-		Destructor destructor4 = new Destructor(this.entorno);
-		destructor4.setX(80);
-		
-		
-		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
-
 		// Inicia el juego!
 		this.entorno.iniciar();
-		// System.out.println(randomNumber);
 	}
 	
-	public void cantMeteorito() {
-		int contador = 0;
+	public void listaMeteorito() {
 		
-		int x = 0;
-		int y = 0;
+		Random random = new Random();
+		int randomNumber = random.nextInt(3) + 4;
+		int ejeY = -50;
 		
-		while(contador < meteorito.length) {
-			x += 50;
-
-			meteorito[contador] = new Meteorito(x, y);
-			contador++;
+		this.asteroide = new Meteorito[randomNumber];
+		
+		for (int i = 0; i < randomNumber; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			this.asteroide[i] = new Meteorito(randomNumberEjeX, ejeY += 50);
+		}
+		
+		for(int i = 0; i < this.asteroide.length; i++ ) {
+			if(asteroide[i].exploto) {
+				asteroide[i] = null;
+			}
+		}
+		
+	}
+	
+	public void listaMonstruos() {
+		int ejeY = -40;
+		
+		this.destructor = new Destructor[4];
+		
+		for(int i = 0; i < 4; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			this.destructor[i] = new Destructor(randomNumberEjeX, ejeY += 50);
 		}
 	}
 	
-	/*
-	public void cantDestructores() {
-		int contador = 0;
-		double x = 0;
-		double y = 0;
-		
-		
-		while(contador < destructor.length) {
-			x += 50;
-			destructor[contador] = new Destructor(entorno);
-			contador++;
-		}
-	}*/
-
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
 	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
 	 * actualizar el estado interno del juego para simular el paso del tiempo 
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
-	public void tick()
-	{
+	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
-		// meteorito.dibujarse(entorno);
 		
-		for(int i = 0; i < meteorito.length; i++) {
-			meteorito[i].dibujarse(entorno);
-		}
-		
-		/*
-		for(int i = 0; i < destructor.length; i++) {
-			destructor[i].dibujarse(entorno);
-		}*/
 		nave.dibujarse(entorno);
 		
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-			nave.moverDerecha();
+		for(int i = 0; i < this.asteroide.length; i++ ) {
+			asteroide[i].dibujarse(entorno);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+		
+		for(int i = 0; i < this.destructor.length; i++) {
+			destructor[i].dibujarse(entorno);
+		}
+		
+		// No funciona xd
+		for(Destructor monstruo : destructor) {
+			monstruo.disparar();
+			monstruo.moverDisparo();
+		}
+		
+		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
 			nave.moverIzquierda();
-		}
-
+		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
+			nave.moverDerecha();
+		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
+			nave.Disparar();
+			nave.moverDisparo();
+		
+		// Poner la colision para que cuando algun meteorito choque con la nave y asi se termina el juego
+			
+		// Poner la colision para que cuando algun monstruo choque con la nave y asi se termina el juego
+		
+		// Poner la colision de las balas asi si pega en algun monstruo o algun meteorito 
+			
+		// Poner la colision 
 	}
 	
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Juego juego = new Juego();
 		
 	}

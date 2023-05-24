@@ -2,7 +2,6 @@ package juego;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
-
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -12,9 +11,10 @@ public class Destructor {
 	private boolean disparando = false;
 	private double ancho = 800;
 	private double alto = 500;
+	private boolean exploto;
 	Entorno entorno;
 	private int entornoAncho;
-	private double destructorAncho;
+	private double destructorAncho = 500;
 	private Ion proyectil;
 	Image img;
 	// Para hacer un numero random entre 20 y 790;
@@ -22,12 +22,11 @@ public class Destructor {
 	double randomX = random.nextDouble(790-20+1) + 25;
 	
 	// Constructor destructor
-	public Destructor(Entorno entorno) {
-		this.entorno = entorno;
-		this.entornoAncho = entorno.ancho();
+	public Destructor(double x, int y) {
 		this.x = x;
-		this.y = 700;
-		img = Herramientas.cargarImagen("destructor2");
+		this.y = y;
+		this.exploto = false;
+		img = Herramientas.cargarImagen("monstruo.png");
 	}
 	
 	// Getters de x e y de destructor
@@ -39,11 +38,17 @@ public class Destructor {
 		return this.y;
 	}
 	
+	// Setters de x y y.
 	public void setX(double x) {
 		this.x = x;
 	}
 	
+	public void setY(double y) {
+		this.y += y;
+	}
+	
 	// Funcion que mueve automaticamente a los destructores
+	/*
 	public void moverse(double x, double y) {
 		// Para que se mueva a la derecha
 		if(this.x+5+(this.destructorAncho/2) <= this.entornoAncho) {
@@ -58,11 +63,33 @@ public class Destructor {
 		}
 		
 		// Para que se mueva para abajo
-		if(this.y-5-(this.destructorAncho/2) <= this.alto) {
-			this.y = this.y - 3;
+		if(this.y+5-(this.destructorAncho/2) >= this.alto) {
+			this.y = this.y + 3;
 		} else {
 			this.dibujarse(entorno);
 		}
+		
+	}*/
+	
+	Random random1 = new Random();
+    double randomNumber = random1.nextInt(2);
+	
+    // Funcion que hace que los monstruos caigan
+	public void caer(double x, double y) {
+		
+        this.y += Math.sin(2)*1;
+        
+        if(randomNumber == 1) {
+        	this.x += Math.cos(this.angulo)*4;
+        } else {
+        	this.x -= Math.cos(this.angulo)*4;
+
+        }
+		
+		if(this.y >= 650 || this.x >= 800 || this.x <= 10) {
+			this.x = (int) (1400 - 1800*Math.random());
+			this.y = 0;
+		}	
 		
 	}
 	
@@ -73,31 +100,42 @@ public class Destructor {
 			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+60, 30, 50, 3);
 		}
 	}
-	
-	// Funcion que dibuja el destructor dentro del entorno
-	public void dibujarse(Entorno entorno) {
-			entorno.dibujarImagen(img, this.x, this.y, angulo, alto);
-			this.moverse(this.x, this.y);
-			System.out.println("Aparicion destructor");
-	}
-		
 	public void moverDisparo() {
 		if(disparando && enPantalla()) {
-			this.proyectil.setY(2);
-			this.proyectil.redibujar(this.entorno);
+			this.proyectil.setY(-2);
+			this.proyectil.dibujar(this.entorno);
 		}
 	}
+	
+	// Funcion 
+	public void dibujarse(Entorno entorno) {
+			entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
+			//this.moverse(this.x, this.y);
+			this.caer(this.x, this.y);
+			System.out.println("Aparicion destructor");
+	}
+	
+	public void exploto() {
+		this.exploto = true;
+	}
+	
 	public boolean enPantalla () {
 		if(proyectil.getY()+20<0) {
-			borrarProyectil();
+			borrarMunicion();
 			return false;
 		}else
 			return true;
 	}
-	
-	public void borrarProyectil() {
-		this.disparando = false;
-		this.proyectil = null;
+	public void borrarMunicion() {
+		this.disparando=false;
+		this.proyectil=null;
 	}
+	
+	public boolean chocaConNave(Nave nave) {
+		return (this.destructorGetX() > nave.naveGetX() - nave.naveAncho / 2) &&
+				(this.destructorGetX() < nave.naveGetX() + nave.naveAncho / 2) &&
+				(this.destructorGetY() > nave.naveGetY() - nave.naveGetY() /2); 
+	}
+	
 	
 }

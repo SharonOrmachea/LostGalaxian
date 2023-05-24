@@ -14,6 +14,7 @@ public class Ion {
 	private double angulo;
 	private double velocidad;
 	private double escala;
+	private Image img5;
 	
 	public Ion(double x, double y, double alto, double ancho, double velocidad) {
 		this.angulo = 0;
@@ -23,11 +24,12 @@ public class Ion {
 		this.alto = alto;
 		this.ancho = ancho;
 		this.velocidad = velocidad;
+		this.img5 = Herramientas.cargarImagen("rayo22.png");
 	}
 	
 	
 	public void dibujar(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, this.angulo, Color.orange);
+		entorno.dibujarImagen(img5, this.x, this.y, this.angulo, this.escala);
 	}
 	
 	public double getY() {
@@ -41,23 +43,13 @@ public class Ion {
 		this.y += y;
 	}
 	
-	public void redibujar(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, this.angulo, Color.orange);
-	}
-	
-	// Metodo que podiamos hacer para que colisione con el entorno en caso de que no haya colisionado con la nave y que se redibuje
-	/*
-	public boolean chocasteConEntorno(Entorno e) {
-		return x <= e.ancho() || y <= e.alto() || x >= e.ancho() - y ;
-	}*/
 	
 	// Metodo que podriamos hacer para que colisione con nave
-	/*
 	public boolean chocasteConNave(Nave nave) {
 		return (this.getX() > nave.naveGetX() - nave.naveAncho / 2) && 
 				(this.getX() < nave.naveGetX() + nave.naveAncho / 2) && 
 				(this.getY() > nave.naveGetY() - nave.naveGetY() / 2);
-	}*/
+	}
 	
 	
 }
