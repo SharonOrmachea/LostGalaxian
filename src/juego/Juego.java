@@ -61,7 +61,8 @@ public class Juego extends InterfaceJuego {
 	}
 	
 	public void listaMonstruos() {
-		int ejeY = -40;
+		int ejeY = -50;
+		Random random = new Random();
 		
 		this.destructor = new Destructor[4];
 		
@@ -81,7 +82,7 @@ public class Juego extends InterfaceJuego {
 		// Procesamiento de un instante de tiempo
 		// ...
 		
-		nave.dibujarse(entorno);
+		
 		
 		for(int i = 0; i < this.asteroide.length; i++ ) {
 			asteroide[i].dibujarse(entorno);
@@ -91,11 +92,13 @@ public class Juego extends InterfaceJuego {
 			destructor[i].dibujarse(entorno);
 		}
 		
-		// No funciona xd
-		for(Destructor monstruo : destructor) {
-			monstruo.disparar();
-			monstruo.moverDisparo();
-		}
+		destructor[0].disparar();
+		destructor[1].disparar();
+		destructor[2].disparar();
+		destructor[3].disparar();
+		
+		nave.dibujarse(entorno);
+		
 		
 		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
 			nave.moverIzquierda();
@@ -106,8 +109,19 @@ public class Juego extends InterfaceJuego {
 			nave.moverDisparo();
 		
 		// Poner la colision para que cuando algun meteorito choque con la nave y asi se termina el juego
+		for(Meteorito meteorito : asteroide) {
+			if(meteorito.chocaConNave(nave)) {
+				System.out.println("METEORITO CHOCO CON EL METEORITO");
+			}
+		}
 			
 		// Poner la colision para que cuando algun monstruo choque con la nave y asi se termina el juego
+		for(Destructor destructor : destructor) {
+			if(destructor.chocaConNave(nave)) {
+				nave = null;
+				System.out.println("DESTRUCTOR CHOCO CON LA NAVE");
+			}
+		}
 		
 		// Poner la colision de las balas asi si pega en algun monstruo o algun meteorito 
 			

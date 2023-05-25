@@ -77,10 +77,10 @@ public class Meteorito {
 		this.exploto = true;
 	}
 	
-	/*
+	
 	public boolean chocaConNave(Nave nave) {
-		return (this.destructorGetX() > nave.naveGetX() - nave.naveAncho / 2) &&
-				(this.destructorGetX() < nave.naveGetX() + nave.naveAncho / 2) &&
-				(this.destructorGetY() > nave.naveGetY() - nave.naveGetY() /2); 
-	}*/
+		return (this.getX() > nave.naveGetX() - nave.naveAncho / 2) &&
+				(this.getX() < nave.naveGetX() + nave.naveAncho / 2) &&
+				(this.getY() > nave.naveGetY() - nave.naveGetY() /2); 
+	}
 }

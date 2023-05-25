@@ -1,10 +1,10 @@
 package juego;
 import java.awt.Color;
 import java.awt.Image;
-
+import juego.Nave;
 import entorno.Entorno;
 import entorno.Herramientas;
-import juego.Nave;
+
 
 public class Ion {
 	private double x;
@@ -24,12 +24,12 @@ public class Ion {
 		this.alto = alto;
 		this.ancho = ancho;
 		this.velocidad = velocidad;
-		this.img5 = Herramientas.cargarImagen("rayo22.png");
+		//this.img5 = Herramientas.cargarImagen("rayo22.png");
 	}
 	
-	
-	public void dibujar(Entorno entorno) {
-		entorno.dibujarImagen(img5, this.x, this.y, this.angulo, this.escala);
+	public void dibujarse(Entorno entorno) {
+		//entorno.dibujarImagen(img5, this.x, this.y, this.angulo, this.escala);
+		entorno.dibujarTriangulo(this.x, this.y, 40, 20, this.angulo, Color.yellow);
 	}
 	
 	public double getY() {

@@ -49,4 +49,10 @@ public class Bala {
 		return (this.getY() > destructor.destructorGetX() - destructor.destructorGetX() / 2) && 
 				(this.getY() > destructor.destructorGetY() - destructor.destructorGetX() / 2);
 	}
+	
+	// Funcion para que colisione con el meteorito 
+	public boolean chocasteConMeteorito(Meteorito meteorito) {
+		return (this.getY() > meteorito.getX() - meteorito.getX() / 2) && 
+				(this.getY() > meteorito.getY() - meteorito.getX() / 2);
+	}
 }
