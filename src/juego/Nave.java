@@ -15,7 +15,7 @@ public class Nave
 	private int	entornoAncho;
 	private double naveX;
 	private double naveY;
-	private double naveAncho = 30;
+	public double naveAncho = 30;
 	private double angulo;
 	private Image  img1;
 	private Image img2;
@@ -89,4 +89,3 @@ public class Nave
 		this.municion=null;
 	}
 }
-

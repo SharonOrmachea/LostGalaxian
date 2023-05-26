@@ -14,9 +14,9 @@ public class Juego extends InterfaceJuego {
 	
 	private Meteorito[] asteroide;
 	
-	private ListaMeteorito listaMeteorito;
 	
-	private Bala municion;
+	private Destructor[] destructor;
+	
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
@@ -31,16 +31,8 @@ public class Juego extends InterfaceJuego {
 		
 		listaMeteorito();
 		
-		// Destructores
-		Destructor destructor1 = new Destructor(this.entorno);
-		destructor1.setX(20);
-		Destructor destructor2 = new Destructor(this.entorno);
-		destructor2.setX(40);
-		Destructor destructor3 = new Destructor(this.entorno);
-		destructor3.setX(60);
-		Destructor destructor4 = new Destructor(this.entorno);
-		destructor4.setX(80);
-
+		listaMonstruos();
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -60,6 +52,17 @@ public class Juego extends InterfaceJuego {
 		
 	}
 	
+	public void listaMonstruos() {
+		int ejeY = -40;
+		
+		this.destructor = new Destructor[4];
+		
+		for(int i = 0; i < 4; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			this.destructor[i] = new Destructor(randomNumberEjeX, ejeY += 50);
+		}
+	}
+	
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
 	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
@@ -74,6 +77,10 @@ public class Juego extends InterfaceJuego {
 		
 		for(int i = 0; i < this.asteroide.length; i++ ) {
 			asteroide[i].dibujarse(entorno);
+		}
+		
+		for(int i = 0; i < this.destructor.length; i++) {
+			destructor[i].dibujarse(entorno);
 		}
 		
 		
