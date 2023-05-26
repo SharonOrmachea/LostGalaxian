@@ -16,7 +16,7 @@ public class Juego extends InterfaceJuego {
 	
 	// private ListaMeteorito listaMeteorito;
 	
-	private Destructor[] destructor;
+	private Destructor[] destructores;
 	
 	private Bala municion;
 	
@@ -64,11 +64,11 @@ public class Juego extends InterfaceJuego {
 		int ejeY = -50;
 		Random random = new Random();
 		
-		this.destructor = new Destructor[4];
+		this.destructores = new Destructor[4];
 		
 		for(int i = 0; i < 4; i++) {
 			int randomNumberEjeX = random.nextInt(600);
-			this.destructor[i] = new Destructor(randomNumberEjeX, ejeY += 50);
+			this.destructores[i] = new Destructor(randomNumberEjeX, ejeY += 50);
 		}
 	}
 	
@@ -88,10 +88,14 @@ public class Juego extends InterfaceJuego {
 			asteroide[i].dibujarse(entorno);
 		}
 		
-		for(int i = 0; i < this.destructor.length; i++) {
-			destructor[i].dibujarse(entorno);
+		for(int i = 0; i < this.destructores.length; i++) {
+			destructores[i].dibujarse(entorno);
 		}
 		
+		for(int i = 0; i < this.destructores.length; i++) {
+			destructores[i].disparar();
+			destructores[i].moverProyectil();
+		}
 		
 		nave.dibujarse(entorno);
 		
@@ -112,15 +116,19 @@ public class Juego extends InterfaceJuego {
 		}
 			
 		// Poner la colision para que cuando algun monstruo choque con la nave y asi se termina el juego
-		for(Destructor destructor : destructor) {
+		for(Destructor destructor : destructores) {
 			if(destructor.chocaConNave(nave)) {
 				System.out.println("DESTRUCTOR CHOCO CON LA NAVE");
 			}
 		}
 		
-		for(Destructor destructor : destructor) {
-			if(destructor.chocaConOtroDestructor(destructor)) {
-				System.out.println("DESTRUCTOR CHOCO CON OTRO DESTRUCTOR");
+		// Colision de los destructores
+		for(int i = 0; i < this.destructores.length; i++) {
+			for(int j = 0; j < this.destructores.length; j++) {
+				if(this.destructores[i].chocaConOtroDestructor(this.destructores[j])) {
+					System.out.println("DESTRUCTOR CHOCO CON OTRO DESTRUCTOR");
+					this.destructores[i].cambiarTrayectoria();
+				}
 			}
 		}
 		

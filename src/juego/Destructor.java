@@ -79,11 +79,15 @@ public class Destructor {
 			System.out.println("Aparicion destructor");
 	}
 	
+	public void cambiarTrayectoria() {
+		this.angulo += Math.PI/2;
+	}
+	
 	// Método para que el destructor dispare
 	public void disparar() {
 		if(disparando) {
 			this.disparando = true;
-			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()-50, 30, 50, 3);
+			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 30, 50, 3);
 		}
 	}
 
