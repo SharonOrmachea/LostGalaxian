@@ -68,7 +68,7 @@ public class Nave
 	public void Disparar () {
 		if(!disparando) {
 			this.disparando=true;
-			this.municion=new Bala(this.naveGetX(),this.naveGetY()-60,30,50,3);
+			this.municion=new Bala(this.naveGetX(),this.naveGetY()+60,30,50,3);
 		}
 	}
 	public void moverDisparo() {
@@ -78,7 +78,7 @@ public class Nave
 		}
 	}
 	public boolean enPantalla () {
-		if(municion.getY()+20<0) {
+		if(this.municion.getY()+20<0) {
 			borrarMunicion();
 			return false;
 		}else

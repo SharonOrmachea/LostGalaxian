@@ -67,7 +67,7 @@ public class Destructor {
 	}
 	
 	public void girar() {
-		this.angulo += 0.03;
+		this.angulo += 0.01;
 	}
 	
 	// Funcion 
@@ -83,7 +83,7 @@ public class Destructor {
 	public void disparar() {
 		if(disparando) {
 			this.disparando = true;
-			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 31, 50, 1);
+			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()-50, 30, 50, 3);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class Destructor {
 	
 	
 	public boolean enPantalla () {
-		if(this.proyectil.getY()-20<0) {
+		if(this.proyectil.getY()+20<800) {
 			borrarMunicion();
 			return false;
 		}else
@@ -113,6 +113,12 @@ public class Destructor {
 		return (this.destructorGetX() > nave.naveGetX() - nave.naveAncho / 2) &&
 				(this.destructorGetX() < nave.naveGetX() + nave.naveAncho / 2) &&
 				(this.destructorGetY() > nave.naveGetY() - nave.naveGetY() /2); 
+	}
+	
+	public boolean chocaConOtroDestructor(Destructor destructor) {
+		return(this.destructorGetX() > destructor.destructorGetX() - destructor.ancho / 2) && 
+				(this.destructorGetX() < destructor.destructorGetX() + destructor.ancho / 2) &&
+					(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() / 2);
 	}
 	
 	

@@ -92,10 +92,6 @@ public class Juego extends InterfaceJuego {
 			destructor[i].dibujarse(entorno);
 		}
 		
-		destructor[0].disparar();
-		destructor[1].disparar();
-		destructor[2].disparar();
-		destructor[3].disparar();
 		
 		nave.dibujarse(entorno);
 		
@@ -118,8 +114,13 @@ public class Juego extends InterfaceJuego {
 		// Poner la colision para que cuando algun monstruo choque con la nave y asi se termina el juego
 		for(Destructor destructor : destructor) {
 			if(destructor.chocaConNave(nave)) {
-				nave = null;
 				System.out.println("DESTRUCTOR CHOCO CON LA NAVE");
+			}
+		}
+		
+		for(Destructor destructor : destructor) {
+			if(destructor.chocaConOtroDestructor(destructor)) {
+				System.out.println("DESTRUCTOR CHOCO CON OTRO DESTRUCTOR");
 			}
 		}
 		
