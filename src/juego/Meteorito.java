@@ -10,7 +10,6 @@ import entorno.Herramientas;
 public class Meteorito {
 
 	// Variables
-	
 	double x;
 	double y;
 	int ancho;

@@ -3,8 +3,8 @@ package juego;
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
-import java.awt.Color;
-import java.awt.Rectangle;
+//import java.awt.Color;
+//import java.awt.Rectangle;
 import java.util.Random;
 
 public class Juego extends InterfaceJuego {
@@ -16,7 +16,7 @@ public class Juego extends InterfaceJuego {
 	
 	private ListaMeteoritos listaMeteoritos;
 	
-	private Meteorito[] asteroide;
+	//private Meteorito[] asteroide;
 	
 	private Destructor[] destructor;
 	
@@ -102,7 +102,7 @@ public class Juego extends InterfaceJuego {
 	            
 	            // Avanza al siguiente nodo
 	            nodoActual = nodoActual.siguiente;
-	            if(this.nave.disparando) {
+	            /*if(this.nave.disparando) {
 	            	if(colision2(nodoActual.meteorito.x, nodoActual.meteorito.y, this.nave.municion.x, this.nave.municion.y, 20)) {
 	            		nodoActual.meteorito.exploto();
 	            		listaMeteoritos.remove(nodoActual.meteorito);
@@ -110,7 +110,8 @@ public class Juego extends InterfaceJuego {
 	            		System.out.println("Colision!!!!");
 	            		break;
 	            	}
-	            }
+	            }*/
+	            
 	        }
 		}
 		

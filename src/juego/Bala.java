@@ -1,7 +1,7 @@
 package juego;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Rectangle;
+//import java.awt.Rectangle;
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -12,7 +12,7 @@ public class Bala {
 	int alto;
 	int ancho;
 	private double angulo;
-	private double velocidad;
+	//private double velocidad;
 	private double escala;
 	private Image img4;
 	
@@ -23,7 +23,7 @@ public class Bala {
 		this.y=y;
 		this.alto = 80;
 		this.ancho = 6;
-		this.velocidad=velocidad;
+		//this.velocidad=velocidad;
 		this.img4= Herramientas.cargarImagen("disparo.png");
 		
 		//System.out.println(this.y);

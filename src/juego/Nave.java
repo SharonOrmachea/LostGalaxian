@@ -18,8 +18,8 @@ public class Nave
 	public double naveAncho = 30;
 	private double angulo;
 	private Image  img1;
-	private Image img2;
-	private int velocidadDisparo = 10;
+	//private Image img2;
+	//private int velocidadDisparo = 10;
 	
 
 	public Nave(Entorno entorno) 
@@ -75,7 +75,7 @@ public class Nave
 	
 	public void moverDisparo() {
 		if(disparando && enPantalla()) {
-			this.municion.setY(2);
+			this.municion.setY(10);
 			this.municion.redibujar(this.entorno);
 		}
 	}
