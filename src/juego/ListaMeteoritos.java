@@ -1,16 +1,21 @@
 package juego;
 
+import entorno.Entorno;
+
 public class ListaMeteoritos {
 	
 	Nodo cabeza;
 	int longitud;
-	
-	
+	Bala disparo;
+	Entorno entorno;
+	Nave nave;
 
     // Constructor
     public ListaMeteoritos() {
         this.cabeza = null;
         this.longitud = 0;
+        this.disparo = new Bala();
+        
     }
 
     public void agregarMeteorito(Meteorito meteorito) {
@@ -30,66 +35,50 @@ public class ListaMeteoritos {
             longitud++;
         }
     }
-    /*
-    public void eliminarNodo(Meteorito meteorito) {
-        if (cabeza == null) {
-            // La lista está vacía
-            return;
-        }
-
-        if (cabeza.meteorito == meteorito) {
-            // El nodo a eliminar es la cabeza de la lista
-            cabeza = cabeza.siguiente;
-            return;
-        }
-
-        Nodo nodoActual = cabeza;
-        while (nodoActual.siguiente != null) {
-            if (nodoActual.siguiente.meteorito == meteorito) {
-                // Encontramos el nodo a eliminar
-                nodoActual.siguiente = nodoActual.siguiente.siguiente; 
-                return;
-            }
-            nodoActual = nodoActual.siguiente;
-        }
-    }*/
     
-    public void remove(Meteorito meteorito) {
-        Nodo current = cabeza;
-        //Nodo prev = null;
+    public boolean colision2(double x1, double y1, double x2, double y2, double dist) {
+		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
+	}
+    
+    public void colisionConMeteoritos(Bala disparo) {
+    	Nodo hashirama = cabeza;
+    	
+    	while(hashirama != null) {
+    		if(colision2(hashirama.meteorito.x, hashirama.meteorito.y, disparo.x, disparo.y, 20)) {
+    			System.out.println("putas hashirama esta aca");
+    			hashirama.meteorito.exploto();
+    			eliminarMeteorito(hashirama.meteorito);
+    			
+    		}
+    		hashirama = hashirama.siguiente;
+    	}
+    }
+    
+    public void eliminarMeteorito(Meteorito meteorito) {
+    	Nodo nodoActual = cabeza;
+        Nodo nodoAnterior = null;
 
         // Buscar el nodo que contiene el objeto Meteorito a eliminar
-        while (current != null) {
-            if (current.meteorito == meteorito) {
+        while (nodoActual != null) {
+            if (nodoActual.meteorito == meteorito) {
                 break;
             }
-            //prev = current;
-            current = current.siguiente;
+            nodoAnterior = nodoActual;
+            nodoActual = nodoActual.siguiente;
         }
 
         // Si se encuentra el nodo
-            
+        if (nodoActual != null) {
+            // Si es el primer nodo de la lista
+            if (nodoAnterior == null) {
+            	cabeza = nodoActual.siguiente;
+            } else {
+            	nodoAnterior.siguiente = nodoActual.siguiente;
+            }
 
             // Liberar la referencia al nodo eliminado
-            current.siguiente = null;
-        
-    }
-
-
-
-    // Método para imprimir los elementos de la lista
-    public void imprimirLista() {
-        Nodo nodoActual = cabeza;
-        while (nodoActual != null) {
-            System.out.print(nodoActual.meteorito + " ");
-            nodoActual = nodoActual.siguiente;
+            nodoActual.siguiente = null;
         }
-        System.out.println();
     }
-    
-    public int length(){
-    	return longitud;
-    }
-    
-    
+
 }

@@ -16,8 +16,6 @@ public class Juego extends InterfaceJuego {
 	
 	private ListaMeteoritos listaMeteoritos;
 	
-	//private Meteorito[] asteroide;
-	
 	private Destructor[] destructor;
 	
 	Bala municion;
@@ -56,19 +54,7 @@ public class Juego extends InterfaceJuego {
 			listaMeteoritos.agregarMeteorito(asteroide);
 		}
 		
-		/*this.asteroide = new Meteorito[randomNumber];
-		
-		for (int i = 0; i < randomNumber; i++) {
-			int randomNumberEjeX = random.nextInt(600);
-			this.asteroide[i] = new Meteorito(randomNumberEjeX, ejeY += 50);
-		}*/
-		
-	}
-	
-	public boolean colision2(double x1, double y1, double x2, double y2, double dist) {
-		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
-	}
-	
+	}	
 	
 	public void listaMonstruos() {
 		int ejeY = -40;
@@ -99,37 +85,15 @@ public class Juego extends InterfaceJuego {
 	        while (nodoActual != null) {
 	            // Haz algo con el nodo actual
 	            nodoActual.meteorito.dibujarse(entorno);
-	            
 	            // Avanza al siguiente nodo
-	            nodoActual = nodoActual.siguiente;
-	            /*if(this.nave.disparando) {
-	            	if(colision2(nodoActual.meteorito.x, nodoActual.meteorito.y, this.nave.municion.x, this.nave.municion.y, 20)) {
-	            		nodoActual.meteorito.exploto();
-	            		listaMeteoritos.remove(nodoActual.meteorito);
-	            		this.nave.borrarMunicion();
-	            		System.out.println("Colision!!!!");
-	            		break;
-	            	}
-	            }*/
-	            
+	            nodoActual = nodoActual.siguiente; 
 	        }
 		}
 		
-		/*for(int i = 0; i < this.asteroide.length; i++ ) {
-			asteroide[i].dibujarse(entorno);
-			if(this.nave.disparando) {
-				if (colision2(asteroide[i].x, asteroide[i].y, this.nave.municion.x, this.nave.municion.y, 20)) {
-					asteroide[i].exploto();
-					//asteroide[i];
-					this.nave.borrarMunicion();
-					System.out.println("Colision!!!!");
-					break;
-				}
-			}
-		}*/
-		
-		
-
+		if(this.nave.disparando) {
+			listaMeteoritos.colisionConMeteoritos(nave.municion);
+					
+		}
 		
 		for(int i = 0; i < this.destructor.length; i++) {
 			destructor[i].dibujarse(entorno);
@@ -141,10 +105,8 @@ public class Juego extends InterfaceJuego {
 		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
 			nave.moverDerecha();
 		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
-			nave.Disparar();
-			nave.moverDisparo();
-			
-		
+			nave.disparar();
+			nave.moverDisparo();	
 
 	}
 	

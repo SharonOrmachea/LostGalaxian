@@ -68,11 +68,15 @@ public class Meteorito {
 	
 	public void dibujarse(Entorno entorno){
 		//entorno.dibujarCirculo(this.x, this.y, 34, Color.black);
-		this.circulo(entorno);
-		entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
-		this.girar();
-		this.caer(this.x, this.y);	
-
+		if(!this.exploto) {
+			this.circulo(entorno);
+			entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
+			this.girar();
+			this.caer(this.x, this.y);	
+		} else {
+			entorno.dibujarImagen(img, this.x, this.y, 0, 0);
+			
+		}
 	}
 	
 	public void exploto() {

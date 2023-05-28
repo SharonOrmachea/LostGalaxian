@@ -16,6 +16,8 @@ public class Bala {
 	private double escala;
 	private Image img4;
 	
+	public Bala() {}
+	
 	public Bala (double x,double y, double alto, double ancho, double velocidad) {
 		this.angulo=0;
 		this.escala=0.1;
@@ -45,11 +47,12 @@ public class Bala {
 		this.y-=y;
 		//System.out.println(this.y);
 	}
+	
 	public void redibujar(Entorno entorno) {
 		this.rectangulo(entorno);
 		entorno.dibujarImagen(img4 , this.x, this.y, this.angulo, this.escala);
 	}
 	
-	public void colision() {}
+	
 	
 }
