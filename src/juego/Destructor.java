@@ -6,24 +6,24 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Destructor {
-	private double x, y;
+	private double x;
+	private double y;
 	private double angulo;
 	private boolean disparando = true;
 	private double ancho = 800;
 	private double alto = 500;
-	private boolean exploto;
 	Entorno entorno;
 	private int entornoAncho;
-	private double destructorAncho = 500;
+	private double destructorAncho = 30;
+	private int velocidadRayo = 10;
 	private Ion proyectil;
-	Image img;
+	Image img3;
 	
 	// Constructor destructor
 	public Destructor(double x, int y) {
 		this.x = x;
 		this.y = y;
-		this.exploto = false;
-		img = Herramientas.cargarImagen("monstruo.png");
+		img3 = Herramientas.cargarImagen("monstruo.png");
 	}
 	
 	// Getters de x e y de destructor
@@ -72,7 +72,8 @@ public class Destructor {
 	
 	// Funcion 
 	public void dibujarse(Entorno entorno) {
-			entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
+			//entorno.dibujarImagen(img3, this.x, this.y, this.angulo, 0.1);
+			entorno.dibujarImagen(img3, this.x, this.y, this.angulo, 0.1);
 			//this.moverse(this.x, this.y);
 			this.girar();
 			this.caer(this.x, this.y);
@@ -84,7 +85,7 @@ public class Destructor {
 	}
 	
 	// Método para que el destructor dispare
-	public void disparar() {
+	public void Disparar() {
 		if(disparando) {
 			this.disparando = true;
 			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 30, 50, 3);
@@ -125,5 +126,10 @@ public class Destructor {
 					(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() / 2);
 	}
 	
+	public boolean impactadoPorBala(Bala misil) {
+		return (this.destructorGetX() > misil.getY() - misil.ancho / 2) && 
+				(this.destructorGetX() < misil.x + misil.ancho / 2) && 
+					(this.destructorGetY() > misil.getY() - misil.getY() / 2);
+	}
 	
 }

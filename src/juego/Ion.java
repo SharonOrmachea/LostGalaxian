@@ -43,13 +43,4 @@ public class Ion {
 		this.y += y;
 	}
 	
-	
-	// Metodo que podriamos hacer para que colisione con nave
-	public boolean chocasteConNave(Nave nave) {
-		return (this.getX() > nave.naveGetX() - nave.naveAncho / 2) && 
-				(this.getX() < nave.naveGetX() + nave.naveAncho / 2) && 
-				(this.getY() > nave.naveGetY() - nave.naveGetY() / 2);
-	}
-	
-	
 }

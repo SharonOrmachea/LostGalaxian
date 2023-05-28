@@ -6,11 +6,11 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Bala {
-	private double x;
-	private double y;
-	private double alto;
-	private double ancho;
-	private double angulo;
+	public double x;
+	public double y;
+	public double alto;
+	public double ancho;
+	public double angulo;
 	private double velocidad;
 	private double escala;
 	private Image img4;
@@ -37,22 +37,4 @@ public class Bala {
 		entorno.dibujarImagen(img4 , this.x, this.y, this.angulo, this.escala);
 	}
 	
-	/*
-	public void chocasteConDestructor(Destructor destructor) {
-		return (this.getY() > nave.naveGetX() - nave.naveAncho / 2) && 
-				(this.getX() < nave.naveGetX() + nave.naveAncho / 2) && 
-				(this.getY() > nave.naveGetY() - nave.naveGetY() / 2);
-	}*/
-	
-	// Funcion para que colisione
-	public boolean chocasteConDestructor(Destructor destructor) {
-		return (this.getY() > destructor.destructorGetX() - destructor.destructorGetX() / 2) && 
-				(this.getY() > destructor.destructorGetY() - destructor.destructorGetX() / 2);
-	}
-	
-	// Funcion para que colisione con el meteorito 
-	public boolean chocasteConMeteorito(Meteorito meteorito) {
-		return (this.getY() > meteorito.getX() - meteorito.getX() / 2) && 
-				(this.getY() > meteorito.getY() - meteorito.getX() / 2);
-	}
 }

@@ -9,12 +9,13 @@ import entorno.Herramientas;
 public class Nave 
 {
 	// Variables de instancia
-	private boolean disparando = false;
+	public boolean disparando = false;
 	private Entorno entorno;
-	private Bala municion;
+	public Bala municion;
 	private int	entornoAncho;
 	private double naveX;
 	private double naveY;
+	public boolean vivo = true;
 	public double naveAncho = 30;
 	private double angulo;
 	private Image  img1;
@@ -43,10 +44,10 @@ public class Nave
 	
 	public void dibujarse(Entorno entorno)
 	{
-		entorno.dibujarTriangulo(this.naveX, this.naveY, 50, 30, this.angulo, Color.yellow);
-		entorno.dibujarImagen(img1, this.naveX, this.naveY, 0, 0.2);
-		
-	
+		if(vivo) {
+			entorno.dibujarTriangulo(this.naveX, this.naveY, 50, 30, this.angulo, Color.yellow);
+			entorno.dibujarImagen(img1, this.naveX, this.naveY, 0, 0.2);
+		}
 	}
 	
 	
