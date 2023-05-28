@@ -9,9 +9,9 @@ import entorno.Herramientas;
 public class Nave 
 {
 	// Variables de instancia
-	private boolean disparando = false;
+	boolean disparando = false;
 	private Entorno entorno;
-	private Bala municion;
+	Bala municion;
 	private int	entornoAncho;
 	private double naveX;
 	private double naveY;
@@ -54,7 +54,7 @@ public class Nave
 	{
 		if(this.naveX+5+(this.naveAncho/2) <= this.entornoAncho)
 			this.naveX=this.naveX+3;
-			System.out.println("derecha");
+			//System.out.println("derecha");
 			
 	}
 
@@ -62,21 +62,26 @@ public class Nave
 	{
 		if(this.naveX-5-(this.naveAncho/2) >= 0)
 			this.naveX=this.naveX-3;
-			System.out.println("izquierda");
+			//System.out.println("izquierda");
 		
 	}
+	
 	public void Disparar () {
 		if(!disparando) {
 			this.disparando=true;
 			this.municion=new Bala(this.naveGetX(),this.naveGetY()-60,30,50,3);
 		}
 	}
+	
 	public void moverDisparo() {
 		if(disparando && enPantalla()) {
 			this.municion.setY(2);
 			this.municion.redibujar(this.entorno);
 		}
 	}
+	
+
+	
 	public boolean enPantalla () {
 		if(municion.getY()+20<0) {
 			borrarMunicion();
@@ -84,6 +89,7 @@ public class Nave
 		}else
 			return true;
 	}
+	
 	public void borrarMunicion() {
 		this.disparando=false;
 		this.municion=null;

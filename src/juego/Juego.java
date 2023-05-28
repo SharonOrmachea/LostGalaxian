@@ -3,6 +3,8 @@ package juego;
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.util.Random;
 
 public class Juego extends InterfaceJuego {
@@ -12,10 +14,13 @@ public class Juego extends InterfaceJuego {
 	// Variables y métodos propios de cada grupo
 	private Nave nave;
 	
+	private ListaMeteoritos listaMeteoritos;
+	
 	private Meteorito[] asteroide;
 	
-	
 	private Destructor[] destructor;
+	
+	Bala municion;
 	
 	
 	Random random = new Random();
@@ -28,6 +33,8 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		
 		this.nave = new Nave(this.entorno);
+		
+		listaMeteoritos = new ListaMeteoritos();
 		
 		listaMeteorito();
 		
@@ -43,14 +50,25 @@ public class Juego extends InterfaceJuego {
 		int randomNumber = random.nextInt(3) + 4;
 		int ejeY = -50;
 		
-		this.asteroide = new Meteorito[randomNumber];
+		for (int i = 0; i < randomNumber; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			Meteorito asteroide = new Meteorito(randomNumberEjeX, ejeY += 50);
+			listaMeteoritos.agregarMeteorito(asteroide);
+		}
+		
+		/*this.asteroide = new Meteorito[randomNumber];
 		
 		for (int i = 0; i < randomNumber; i++) {
 			int randomNumberEjeX = random.nextInt(600);
 			this.asteroide[i] = new Meteorito(randomNumberEjeX, ejeY += 50);
-		}
+		}*/
 		
 	}
+	
+	public boolean colision2(double x1, double y1, double x2, double y2, double dist) {
+		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
+	}
+	
 	
 	public void listaMonstruos() {
 		int ejeY = -40;
@@ -75,9 +93,42 @@ public class Juego extends InterfaceJuego {
 		
 		nave.dibujarse(entorno);
 		
-		for(int i = 0; i < this.asteroide.length; i++ ) {
-			asteroide[i].dibujarse(entorno);
+		for(int i = 0; i < this.listaMeteoritos.longitud; i++) {
+			//listaMeteoritos.cabeza.meteorito.dibujarse(entorno);
+			Nodo nodoActual = listaMeteoritos.cabeza;
+	        while (nodoActual != null) {
+	            // Haz algo con el nodo actual
+	            nodoActual.meteorito.dibujarse(entorno);
+	            
+	            // Avanza al siguiente nodo
+	            nodoActual = nodoActual.siguiente;
+	            if(this.nave.disparando) {
+	            	if(colision2(nodoActual.meteorito.x, nodoActual.meteorito.y, this.nave.municion.x, this.nave.municion.y, 20)) {
+	            		nodoActual.meteorito.exploto();
+	            		listaMeteoritos.remove(nodoActual.meteorito);
+	            		this.nave.borrarMunicion();
+	            		System.out.println("Colision!!!!");
+	            		break;
+	            	}
+	            }
+	        }
 		}
+		
+		/*for(int i = 0; i < this.asteroide.length; i++ ) {
+			asteroide[i].dibujarse(entorno);
+			if(this.nave.disparando) {
+				if (colision2(asteroide[i].x, asteroide[i].y, this.nave.municion.x, this.nave.municion.y, 20)) {
+					asteroide[i].exploto();
+					//asteroide[i];
+					this.nave.borrarMunicion();
+					System.out.println("Colision!!!!");
+					break;
+				}
+			}
+		}*/
+		
+		
+
 		
 		for(int i = 0; i < this.destructor.length; i++) {
 			destructor[i].dibujarse(entorno);

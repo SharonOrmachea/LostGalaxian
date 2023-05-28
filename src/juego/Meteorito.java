@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
 import entorno.Entorno;
@@ -12,17 +13,22 @@ public class Meteorito {
 	
 	double x;
 	double y;
+	int ancho;
+	int alto;
 	double angulo;
 	boolean exploto;
 	Image img;
 	
+	Entorno entorno;
 	Bala municion;
 	Nave nave;
 	
 	
-	public Meteorito(double x, int y) {
+	public Meteorito(double x, double y) {
 		this.x = x;
 		this.y = y;
+		this.ancho = 30;
+		this.alto = 30;
 		this.exploto = false;
 		
 		img = Herramientas.cargarImagen("Meteorito.png");
@@ -30,7 +36,7 @@ public class Meteorito {
 	}
 	
 	public void girar() {
-		this.angulo += 0.03;
+		this.angulo += 0.01;
 	}
 	
 	Random random = new Random();
@@ -42,9 +48,9 @@ public class Meteorito {
         this.y += Math.sin(2)*1;
         
         if(randomNumber == 1) {
-        	this.x += Math.cos(this.angulo)*4;
+        	this.x += Math.cos(this.angulo)*0.2;
         } else {
-        	this.x -= Math.cos(this.angulo)*4;
+        	this.x -= Math.cos(this.angulo)*0.2;
 
         }
 		
@@ -55,8 +61,15 @@ public class Meteorito {
 		
 	}
 	
+	public void circulo(Entorno entorno) {
+		//entorno.dibujarCirculo(this.x, this.y, 34, Color.cyan);
+		entorno.dibujarRectangulo(this.x, this.y, 30, 30, this.angulo, Color.pink);
+
+	}
+	
 	public void dibujarse(Entorno entorno){
-		
+		//entorno.dibujarCirculo(this.x, this.y, 34, Color.black);
+		this.circulo(entorno);
 		entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
 		this.girar();
 		this.caer(this.x, this.y);	
@@ -67,5 +80,7 @@ public class Meteorito {
 		img = Herramientas.cargarImagen("Meteorito-Explosion.png");
 		this.exploto = true;
 	}
+	
+	
 	
 }

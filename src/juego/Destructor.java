@@ -89,7 +89,7 @@ public class Destructor {
 			entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
 			//this.moverse(this.x, this.y);
 			this.caer(this.x, this.y);
-			System.out.println("Aparicion destructor");
+			//System.out.println("Aparicion destructor");
 	}
 	
 	public void exploto() {
