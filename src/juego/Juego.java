@@ -1,51 +1,86 @@
 package juego;
 
-
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
+//import java.awt.Color;
+//import java.awt.Rectangle;
 import java.util.Random;
 
-public class Juego extends InterfaceJuego
-{
+public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	
 	// Variables y métodos propios de cada grupo
 	private Nave nave;
-	Meteorito[] meteorito;
+	
+	private ListaMeteoritos listaMeteoritos;
+	
+	private Destructor[] destructor;
+	
+	Bala municion;
+	
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
-	
-	Juego()
-	{
+	int contador;
+	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Lost Galaxian, Sharon - Grupo 2 - v1", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
+		contador=0;
+		this.nave = new Nave(this.entorno);
 		
-		meteorito = new Meteorito[randomNumber];
-		cantMeteorito();
+		listaMeteoritos = new ListaMeteoritos();
 		
-		this.nave = new Nave(this.entorno.ancho()/2, this.entorno.alto()/1.1,0.2,0.2);
-
+		listaMeteorito();
+		
+		listaMonstruos();
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
-		// System.out.println(randomNumber);
 	}
+	public Nave getNave() {
+		return this.nave;
+	}
+	public void listaMeteorito() {
+		
+		Random random = new Random();
+		int randomNumber = random.nextInt(3) + 4;
+		int ejeY = -50;
+		
+		for (int i = 0; i < randomNumber; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			Meteorito asteroide = new Meteorito(randomNumberEjeX, ejeY += 50);
+			listaMeteoritos.agregarMeteorito(asteroide);
+		}
+		
+	}	
 	
-	public void cantMeteorito() {
-		int contador = 0;
+	public void listaMonstruos() {
+		int ejeY = -40;
 		
-		int x = 0;
-		int y = 0;
+		this.destructor = new Destructor[4];
 		
-		while(contador < meteorito.length) {
-			x += 100;
-
-			meteorito[contador] = new Meteorito(x, y);
-			contador++;
+		for(int i = 0; i < 4; i++) {
+			int randomNumberEjeX = random.nextInt(600);
+			this.destructor[i] = new Destructor(randomNumberEjeX, ejeY += 50, entorno);
+			
+		}
+	}
+	public void disparoDestructor() {
+		System.out.println("inicio disparo");
+		int indice= random.nextInt(0, destructor.length);
+		int numeroRandom = random.nextInt(70) + 4;
+		System.out.println("contador: "+contador/5);
+		System.out.println("numero random: "+numeroRandom);
+		if(contador/10==(numeroRandom)-1){
+			System.out.println("disparo de destructor "+indice);
+			destructor[indice].disparar();
+			destructor[indice].moverProyectil();
+			contador=0;
+			
 		}
 	}
 
@@ -55,33 +90,55 @@ public class Juego extends InterfaceJuego
 	 * actualizar el estado interno del juego para simular el paso del tiempo 
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
-	public void tick()
-	{
+	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
-		// meteorito.dibujarse(entorno);
+		contador++;
+		//System.out.println(contador);
 		
-		for(int i = 0; i < meteorito.length; i++) {
-			meteorito[i].dibujarse(entorno);
+		nave.dibujarse(entorno);
+		
+		for(int i = 0; i < this.listaMeteoritos.longitud; i++) {
+			//listaMeteoritos.cabeza.meteorito.dibujarse(entorno);
+			Nodo nodoActual = listaMeteoritos.cabeza;
+	        while (nodoActual != null) {
+	            // Haz algo con el nodo actual
+	            nodoActual.meteorito.dibujarse(entorno);
+	            // Avanza al siguiente nodo
+	            nodoActual = nodoActual.siguiente; 
+	        }
+		}
+		disparoDestructor();
+		if(this.nave.disparando) {
+			if(listaMeteoritos.colisionMeteorito_Bala(nave.municion)){
+				nave.borrarMunicion();
+			}		
+		}
+		//destructor
+		for(int i = 0; i < this.destructor.length; i++) {
+			destructor[i].dibujarse(entorno);
+			System.out.println(destructor[i].getDisparando());
+			if(destructor[i].getDisparando()) {
+				destructor[i].moverProyectil();
+			}
 		}
 		
-		nave.dibujar(entorno);
 		
 		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
 			nave.moverIzquierda();
 		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
 			nave.moverDerecha();
 		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
-			nave.Disparar();
-			nave.moverDisparo();
-
+			nave.disparar();
+			nave.moverDisparo();	
+		
 	}
 	
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Juego juego = new Juego();
 		
 	}
 }
+
