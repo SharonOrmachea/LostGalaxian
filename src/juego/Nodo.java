@@ -1,11 +1,11 @@
 package juego;
 
-public class NodoMeteorito {
+public class Nodo {
 	Meteorito meteorito;
-	NodoMeteorito siguiente;
+	Nodo siguiente;
 
     // Constructor
-    public NodoMeteorito(Meteorito meteorito) {
+    public Nodo(Meteorito meteorito) {
         this.meteorito = meteorito;
         this.siguiente = null;
     }

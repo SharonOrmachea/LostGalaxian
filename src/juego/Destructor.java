@@ -9,18 +9,21 @@ public class Destructor {
 	public double x;
 	public double y;
 	private double angulo;
-	private boolean disparando = true;
+	private boolean disparando;
 	Entorno entorno;
 	private int alto = 4;
 	private double destructorAncho = 30;
 	private int velocidadRayo = 10;
 	public Ion proyectil;
+	
 	Image img3;
 	
 	// Constructor destructor
-	public Destructor(double x, int y) {
+	public Destructor(double x, int y, Entorno entorno) {
 		this.x = x;
 		this.y = y;
+		this.entorno=entorno;
+		this.disparando=false;
 		img3 = Herramientas.cargarImagen("monstruo.png");
 	}
 	
@@ -84,15 +87,18 @@ public class Destructor {
 	
 	// Método para que el destructor dispare
 	public void disparar() {
-		if(disparando) {
-			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 30, 50, 3);
+		if(!disparando) {
+			disparando=true;
+			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 40, 10, 3);
+			this.proyectil.dibujar(this.entorno);
+			
 		}
 	}
 	
 	// Funcion para mover el proyectil en este caso el ion
 	public void moverProyectil() {
 		if(disparando && enPantalla()) {
-			this.proyectil.setY(2);
+			this.proyectil.moverY(-10);
 			this.proyectil.dibujar(this.entorno);
 		}
 	}
@@ -100,7 +106,7 @@ public class Destructor {
 	
 	// Funcion booleana para saber si estan en pantalla
 	public boolean enPantalla () {
-		if(this.proyectil.getY()+20>600) {
+		if(this.proyectil.getY()-20>600) {
 			borrarMunicion();
 			return false;
 		}else {
@@ -118,5 +124,7 @@ public class Destructor {
 				(this.destructorGetX() < destructor.destructorGetX() + destructor.destructorGetX() / 2) &&
 				(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() /2); 
 	}
-	
+	public boolean getDisparando() {
+		return this.disparando;
+	}
 }
