@@ -14,6 +14,7 @@ public class Ion {
 	private double angulo;
 	private double velocidad;
 	private double escala;
+  
 	//Entorno entorno;
 	public Ion(double x, double y, double alto, double ancho, double velocidad) {
 		this.angulo = 0;
@@ -23,8 +24,6 @@ public class Ion {
 		this.alto = alto;
 		this.ancho = ancho;
 		this.velocidad = velocidad;
-		//this.entorno=entorno;
-		
 	}
 	
 	

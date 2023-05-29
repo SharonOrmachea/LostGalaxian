@@ -24,6 +24,7 @@ public class Juego extends InterfaceJuego {
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
 	int contador;
+
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Lost Galaxian, Sharon - Grupo 2 - v1", 800, 600);
@@ -31,7 +32,7 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		contador=0;
 		this.nave = new Nave(this.entorno);
-		
+	
 		listaMeteoritos = new ListaMeteoritos();
 		
 		listaMeteorito();
@@ -83,7 +84,7 @@ public class Juego extends InterfaceJuego {
 			
 		}
 	}
-
+	
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
 	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
@@ -93,6 +94,7 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
+
 		contador++;
 		//System.out.println(contador);
 		
@@ -123,7 +125,6 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		
-		
 		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
 			nave.moverIzquierda();
 		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
@@ -131,7 +132,7 @@ public class Juego extends InterfaceJuego {
 		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
 			nave.disparar();
 			nave.moverDisparo();	
-		
+
 	}
 	
 

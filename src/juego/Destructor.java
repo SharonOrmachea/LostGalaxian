@@ -6,6 +6,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Destructor {
+
 	public double x;
 	public double y;
 	private double angulo;
@@ -25,6 +26,8 @@ public class Destructor {
 		this.entorno=entorno;
 		this.disparando=false;
 		img3 = Herramientas.cargarImagen("monstruo.png");
+
+
 	}
 	
 	// Getters de x e y de destructor
@@ -52,6 +55,7 @@ public class Destructor {
     // Funcion que hace que los monstruos caigan
 	public void caer(double x, double y) {
 		
+
         this.y += Math.sin(2.5)*1;
         
         if(randomNumber == 1) {
@@ -102,7 +106,6 @@ public class Destructor {
 			this.proyectil.dibujar(this.entorno);
 		}
 	}
-	
 	
 	// Funcion booleana para saber si estan en pantalla
 	public boolean enPantalla () {

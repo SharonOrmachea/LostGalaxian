@@ -8,7 +8,6 @@ public class ListaMeteoritos {
 	int longitud;
 	Bala disparo;
 	Entorno entorno;
-	
 
     // Constructor
     public ListaMeteoritos() {
@@ -41,12 +40,12 @@ public class ListaMeteoritos {
 	}
     
     public boolean colisionMeteorito_Bala(Bala disparo) {
+
     	Nodo hashirama = cabeza;
     	
     	while(hashirama != null) {
     		if(colision2(hashirama.meteorito.x, hashirama.meteorito.y, disparo.x, disparo.y, 20)) {
-    			System.out.println("putas hashirama esta aca");
-    			
+    			System.out.println("putas hashirama esta aca");	
     			hashirama.meteorito.exploto();
     			
     			eliminarMeteorito(hashirama.meteorito);
@@ -56,12 +55,12 @@ public class ListaMeteoritos {
     		hashirama = hashirama.siguiente;
     		
     	}return false;
+
     }
     
     public void eliminarMeteorito(Meteorito meteorito) {
     	Nodo nodoActual = cabeza;
         Nodo nodoAnterior = null;
-        
         // Buscar el nodo que contiene el objeto Meteorito a eliminar
         while (nodoActual != null) {
             if (nodoActual.meteorito == meteorito) {

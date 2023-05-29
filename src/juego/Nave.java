@@ -47,7 +47,11 @@ public class Nave
 		entorno.dibujarTriangulo(this.naveX, this.naveY, 50, 30, this.angulo, Color.yellow);
 		entorno.dibujarImagen(img1, this.naveX, this.naveY, 0, 0.2);	
 	}
+
 	
+	public double naveGetY() {
+		return this.naveY;
+	}
 	
 	public void moverDerecha() /* Mueve a nave a la derecha sin pasar del ancho de la ventana */
 	{
@@ -90,4 +94,3 @@ public class Nave
 		System.out.println("seb orro la municion");
 	}
 }
-
