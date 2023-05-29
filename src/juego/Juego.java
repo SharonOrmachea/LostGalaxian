@@ -66,16 +66,16 @@ public class Juego extends InterfaceJuego {
 		for(int i = 0; i < 4; i++) {
 			int randomNumberEjeX = random.nextInt(600);
 			Destructor destructor = new Destructor(randomNumberEjeX, ejeY += 50);
-			destructores.insertar(destructor);
+			destructores.agregarDestructor(destructor);
 		}
 		
 	}
+	
 	
 	// FUNCION COLISION
 	public boolean colision2(double x1, double y1, double x2, double y2, double dist) {
 		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
 	}
-	
 	
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -113,7 +113,6 @@ public class Juego extends InterfaceJuego {
 	            */
 	        }
 		}
-		
 	
 		
 		// DESTRUCTOR QUE DIBUJA Y SI HAY UNA COLISION SE NOTA LA COLISION
@@ -122,6 +121,8 @@ public class Juego extends InterfaceJuego {
 			
 			while(destructorActual != null) {
 				destructorActual.destructor.dibujarse(entorno);
+				//destructorActual.destructor.disparar();
+				//destructorActual.destructor.moverProyectil();
 				
 				destructorActual = destructorActual.siguiente;
 				/*
@@ -131,6 +132,39 @@ public class Juego extends InterfaceJuego {
 						this.nave.borrarMunicion();
 					}
 				}*/
+			}
+		}
+		
+		// COLISION ENTRE DESTRUCTORES
+		/*
+		for(int i = 0; i < this.destructores.largo; i++) {
+			NodoDestructor destructorActual = destructores.primero;
+			
+			while(destructorActual != null) {
+				NodoDestructor destructorActual1 = destructores.primero;
+				while(destructorActual1 != null) {
+					if(colision2(destructorActual.destructor.destructorGetX(), destructorActual.destructor.destructorGetY(), destructorActual1.destructor.destructorGetX(), destructorActual1.destructor.destructorGetY(), 20)) {
+						destructorActual.destructor.cambiarTrayectoria();
+						//destructorActual.destructor.girar();
+					}
+					destructorActual1 = destructorActual1.siguiente;
+				}
+				destructorActual = destructorActual.siguiente;
+			}
+		}*/
+		
+		for(int i = 0; i < this.destructores.largo; i++) {
+			NodoDestructor destructorActual = destructores.primero;
+			
+			while(destructorActual != null) {
+				NodoDestructor destructorActual1 = destructores.primero;
+				while(destructorActual1 != null) {
+					if(destructorActual.destructor.chocasteCon(destructorActual1.destructor)) {
+						destructorActual.destructor.cambiarTrayectoria();
+					}
+					destructorActual1 = destructorActual1.siguiente;
+				}
+				destructorActual = destructorActual.siguiente;
 			}
 		}
 		
@@ -145,9 +179,9 @@ public class Juego extends InterfaceJuego {
 			nave.moverDisparo();
 		
 		// COLISION ENTRE METEORITO Y NAVE
+		
 			
 		// COLISION ENTRE DESTRUCTOR Y/O ION CON NAVE
-		
 		
 			
 	}

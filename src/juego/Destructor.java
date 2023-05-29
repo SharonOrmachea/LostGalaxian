@@ -6,17 +6,15 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Destructor {
-	private double x;
-	private double y;
+	public double x;
+	public double y;
 	private double angulo;
 	private boolean disparando = true;
-	private double ancho = 800;
-	private double alto = 500;
 	Entorno entorno;
-	private int entornoAncho;
+	private int alto = 4;
 	private double destructorAncho = 30;
 	private int velocidadRayo = 10;
-	private Ion proyectil;
+	public Ion proyectil;
 	Image img3;
 	
 	// Constructor destructor
@@ -51,58 +49,59 @@ public class Destructor {
     // Funcion que hace que los monstruos caigan
 	public void caer(double x, double y) {
 		
-        this.y += Math.sin(2)*1;
+        this.y += Math.sin(2.5)*1;
         
         if(randomNumber == 1) {
-        	this.x += Math.cos(this.angulo)*4;
+        	this.x += Math.cos(this.angulo)*1;
         } else {
-        	this.x -= Math.cos(this.angulo)*4;
+        	this.x -= Math.cos(this.angulo)*1;
         }
 		
-		if(this.y >= 650 || this.x >= 850 || this.x <= -10) {
+		if(this.y >= 650 || this.x >= 800 || this.x <= -10) {
 			this.x = (int) (1400 - 1800*Math.random());
 			this.y = 0;
 		}	
 		
 	}
 	
+	// Funcion que hace girar al destructor
 	public void girar() {
 		this.angulo += 0.01;
 	}
 	
-	// Funcion 
+	// Funcion que dibuja al destructor
 	public void dibujarse(Entorno entorno) {
-			//entorno.dibujarImagen(img3, this.x, this.y, this.angulo, 0.1);
 			entorno.dibujarImagen(img3, this.x, this.y, this.angulo, 0.1);
-			//this.moverse(this.x, this.y);
 			this.girar();
 			this.caer(this.x, this.y);
 			System.out.println("Aparicion destructor");
 	}
 	
+	// Funcion que cambia la trayectoria del destructor
 	public void cambiarTrayectoria() {
 		this.angulo += Math.PI/2;
 	}
 	
 	// Método para que el destructor dispare
-	public void Disparar() {
+	public void disparar() {
 		if(disparando) {
 			this.disparando = true;
 			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 30, 50, 3);
 		}
 	}
-
+	
+	// Funcion para mover el proyectil en este caso el ion
 	public void moverProyectil() {
 		if(disparando && enPantalla()) {
 			this.proyectil.setY(2);
-			this.proyectil.dibujarse(this.entorno);
+			this.proyectil.dibujar(this.entorno);
 		}
 	}
 	
 	
-	
+	// Funcion booleana para saber si estan en pantalla
 	public boolean enPantalla () {
-		if(this.proyectil.getY()+20<800) {
+		if(this.proyectil.getY()+20>600) {
 			borrarMunicion();
 			return false;
 		}else
@@ -114,22 +113,10 @@ public class Destructor {
 		this.proyectil=null;
 	} 
 	
-	public boolean chocaConNave(Nave nave) {
-		return (this.destructorGetX() > nave.naveGetX() - nave.naveAncho / 2) &&
-				(this.destructorGetX() < nave.naveGetX() + nave.naveAncho / 2) &&
-				(this.destructorGetY() > nave.naveGetY() - nave.naveGetY() /2); 
-	}
-	
-	public boolean chocaConOtroDestructor(Destructor destructor) {
-		return(this.destructorGetX() > destructor.destructorGetX() - destructor.ancho / 2) && 
-				(this.destructorGetX() < destructor.destructorGetX() + destructor.ancho / 2) &&
-					(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() / 2);
-	}
-	
-	public boolean impactadoPorBala(Bala misil) {
-		return (this.destructorGetX() > misil.getY() - misil.ancho / 2) && 
-				(this.destructorGetX() < misil.x + misil.ancho / 2) && 
-					(this.destructorGetY() > misil.getY() - misil.getY() / 2);
+	public boolean chocasteCon(Destructor destructor) {
+		return (this.destructorGetX() > destructor.destructorGetX() - destructor.destructorGetX() / 2) &&
+				(this.destructorGetX() < destructor.destructorGetX() + destructor.destructorGetX() / 2) &&
+				(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() /2); 
 	}
 	
 }
