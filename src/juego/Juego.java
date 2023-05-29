@@ -93,6 +93,12 @@ public class Juego extends InterfaceJuego {
 			destructores.primero.destructor.moverProyectil();
 			contador=0;
 		}*/
+	
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void juegoTerminado() {
+		this.entorno.disable();
 	}
 
 	/**
@@ -119,23 +125,14 @@ public class Juego extends InterfaceJuego {
 	            nodoActual = nodoActual.siguiente; 
 	        }
 		}
+		
 		disparoDestructor();
 		if(this.nave.disparando) {
 			if(listaMeteoritos.colisionMeteorito_Bala(nave.municion)){
 				nave.borrarMunicion();
 			}		
 		}
-		//destructor
-		/*
-		for(int i = 0; i < this.destructor.length; i++) {
-			destructor[i].dibujarse(entorno);
-			System.out.println(destructor[i].getDisparando());
-			if(destructor[i].getDisparando()) {
-				destructor[i].moverProyectil();
-			}
-		}*/
 		
-		// DESTRUCTOR QUE DIBUJA Y SI HAY UNA COLISION SE NOTA LA COLISION
 		for(int i = 0; i < this.destructores.largo; i++) {
 			NodoDestructor destructorActual = destructores.primero;
 				
@@ -143,7 +140,12 @@ public class Juego extends InterfaceJuego {
 				destructorActual.destructor.dibujarse(entorno);
 				if(destructorActual.destructor.getDisparando()) {
 					destructorActual.destructor.moverProyectil();
+					if(destructorActual.destructor.proyectil.chocasteConNave(nave)) {
+						juegoTerminado();
+					}
 				}
+				
+				
 				destructorActual = destructorActual.siguiente;
 				}
 			}
@@ -155,7 +157,8 @@ public class Juego extends InterfaceJuego {
 			nave.moverDerecha();
 		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
 			nave.disparar();
-			nave.moverDisparo();	
+			nave.moverDisparo();
+		
 		
 	}
 	

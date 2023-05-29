@@ -98,7 +98,7 @@ public class Destructor {
 	// Funcion para mover el proyectil en este caso el ion
 	public void moverProyectil() {
 		if(disparando && enPantalla()) {
-			this.proyectil.moverY(-10);
+			this.proyectil.moverY(-2);
 			this.proyectil.dibujar(this.entorno);
 		}
 	}
