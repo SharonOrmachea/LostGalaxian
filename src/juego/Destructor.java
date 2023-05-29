@@ -85,7 +85,6 @@ public class Destructor {
 	// Método para que el destructor dispare
 	public void disparar() {
 		if(disparando) {
-			this.disparando = true;
 			this.proyectil = new Ion(this.destructorGetX(), this.destructorGetY()+40, 30, 50, 3);
 		}
 	}
@@ -104,8 +103,9 @@ public class Destructor {
 		if(this.proyectil.getY()+20>600) {
 			borrarMunicion();
 			return false;
-		}else
+		}else {
 			return true;
+		}
 	}
 	
 	public void borrarMunicion() {
