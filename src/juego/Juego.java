@@ -82,24 +82,17 @@ public class Juego extends InterfaceJuego {
 			actual.destructor.moverProyectil();
 			actual = actual.siguiente;
 		}
-		/*
-		int indice= random.nextInt(0, destructores.largo);
-		int numeroRandom = random.nextInt(70) + 4;
-		System.out.println("contador: "+contador/5);
-		System.out.println("numero random: "+numeroRandom);
-		if(contador/10==(numeroRandom)-1){
-			System.out.println("disparo de destructor "+indice);
-			destructores.primero.destructor.disparar();
-			destructores.primero.destructor.moverProyectil();
-			contador=0;
-		}*/
 	
 	}
 	
-	@SuppressWarnings("deprecation")
-	public void juegoTerminado() {
-		this.entorno.disable();
+	public boolean colision(double x1, double y1, double x2, double y2, double dist) {
+		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
 	}
+	
+	
+	
+
+	
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -121,10 +114,16 @@ public class Juego extends InterfaceJuego {
 	        while (nodoActual != null) {
 	            // Haz algo con el nodo actual
 	            nodoActual.meteorito.dibujarse(entorno);
+	            /*
+	            if(colision(nodoActual.meteorito.x, nodoActual.meteorito.y, nave.naveGetX(), nave.naveGetY(), 1)) {
+	            	System.out.println("METEORITO COLISIONA CON NAVE");
+	            }*/
 	            // Avanza al siguiente nodo
 	            nodoActual = nodoActual.siguiente; 
 	        }
 		}
+		
+		
 		
 		disparoDestructor();
 		if(this.nave.disparando) {
@@ -133,6 +132,8 @@ public class Juego extends InterfaceJuego {
 			}		
 		}
 		
+		
+		
 		for(int i = 0; i < this.destructores.largo; i++) {
 			NodoDestructor destructorActual = destructores.primero;
 				
@@ -140,16 +141,43 @@ public class Juego extends InterfaceJuego {
 				destructorActual.destructor.dibujarse(entorno);
 				if(destructorActual.destructor.getDisparando()) {
 					destructorActual.destructor.moverProyectil();
-					if(destructorActual.destructor.proyectil.chocasteConNave(nave)) {
-						juegoTerminado();
-					}
 				}
-				
+				if(destructorActual.destructor.colisionaConEntorno(entorno)) {
+					destructorActual.destructor.cambiarTrayectoria();
+				}
 				
 				destructorActual = destructorActual.siguiente;
 				}
+		}
+			/*
+			while(destructorActual != null) {
+				NodoDestructor actual1 = destructores.primero;
+				while(actual1 != null) {
+					if(destructorActual.destructor.hayColision(actual1.destructor)) {
+						System.out.println("COLISIOOOOOOOOOOON");
+						destructorActual.destructor.cambiarTrayectoria();
+					}
+					actual1 = actual1.siguiente;
+				}
+				destructorActual = destructorActual.siguiente;
 			}
+		*/
 		
+		for(int i = 0; i < this.destructores.largo; i++) {
+			NodoDestructor actual = destructores.primero;
+			
+			while(actual != null) {
+				NodoDestructor actual1 = destructores.primero;
+				while(actual1 != null) {
+					if(actual.destructor.hayColision(actual1.destructor)) {
+						System.out.println("COLISIOOOOOOOOOOON");
+						actual.destructor.cambiarTrayectoria();
+					}
+					actual1 = actual1.siguiente;
+				}
+				actual = actual.siguiente;
+			}
+		}
 		
 		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
 			nave.moverIzquierda();
@@ -159,7 +187,7 @@ public class Juego extends InterfaceJuego {
 			nave.disparar();
 			nave.moverDisparo();
 		
-		
+			
 	}
 	
 

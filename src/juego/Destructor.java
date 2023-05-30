@@ -8,11 +8,11 @@ import entorno.Herramientas;
 public class Destructor {
 	public double x;
 	public double y;
-	private double angulo;
-	private boolean disparando;
+	public double angulo;
+	public boolean disparando;
 	Entorno entorno;
-	private int alto = 4;
-	private double destructorAncho = 30;
+	private int alto;
+	private int ancho = 30;
 	private int velocidadRayo = 10;
 	public Ion proyectil;
 	
@@ -22,6 +22,8 @@ public class Destructor {
 	public Destructor(double x, int y, Entorno entorno) {
 		this.x = x;
 		this.y = y;
+		this.alto = 30;
+		this.ancho = 30;
 		this.entorno=entorno;
 		this.disparando=false;
 		img3 = Herramientas.cargarImagen("monstruo.png");
@@ -35,6 +37,15 @@ public class Destructor {
 	public double destructorGetY() {
 		return this.y;
 	}
+	
+	public int getAncho() {
+		return this.ancho;
+	}
+	
+	public int getAlto() {
+		return this.alto;
+	}
+	
 	
 	// Setters de x y y.
 	public void setX(double x) {
@@ -85,6 +96,7 @@ public class Destructor {
 		this.angulo += Math.PI/2;
 	}
 	
+	
 	// Método para que el destructor dispare
 	public void disparar() {
 		if(!disparando) {
@@ -118,13 +130,38 @@ public class Destructor {
 		this.disparando=false;
 		this.proyectil=null;
 	} 
-	
+	/*
 	public boolean chocasteCon(Destructor destructor) {
 		return (this.destructorGetX() > destructor.destructorGetX() - destructor.destructorGetX() / 2) &&
 				(this.destructorGetX() < destructor.destructorGetX() + destructor.destructorGetX() / 2) &&
 				(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() /2); 
 	}
+	*/
 	public boolean getDisparando() {
 		return this.disparando;
 	}
+	
+	public boolean hayColision(Destructor destructor) {
+        // Verificar si hay colisión en el eje X
+        boolean colisionX = this.x < destructor.destructorGetX() + destructor.getAlto() &&
+                            this.x + this.ancho > destructor.destructorGetX();
+
+        // Verificar si hay colisión en el eje Y
+        boolean colisionY = this.y < destructor.destructorGetY() + destructor.getAlto() &&
+                            this.y + this.alto > destructor.destructorGetY();
+
+        // Retornar verdadero si hay colisión en ambos ejes
+        return colisionX && colisionY;
+    }
+	
+	public boolean colisionaConEntorno(Entorno entorno) {
+		boolean colisionIzquierda = this.destructorGetX() < 0;
+		boolean colisionDerecha = this.destructorGetX() + this.ancho > entorno.ancho();
+		
+		return colisionIzquierda || colisionDerecha;
+		
+	}
+	
+
+	
 }
