@@ -32,7 +32,6 @@ public class ListaDestructores {
 		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
 	}
 	
-	
 	public boolean colisionDestructorBala(Bala disparo) {
 		NodoDestructor hashirama = primero;
     	
@@ -44,21 +43,6 @@ public class ListaDestructores {
     		}
     		hashirama = hashirama.siguiente;
     		
-    	}
-    	return false;
-
-    }
-	
-	public boolean colisionProyectilNave(Nave nave) {
-		NodoDestructor hashirama = primero;
-    	
-    	while(hashirama != null) {
-    		if(colision2(hashirama.destructor.proyectil.x, hashirama.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
-    			hashirama.destructor.borrarMunicion();
-    			nave.destruirNave();
-    			return true;		
-    		}
-    		hashirama = hashirama.siguiente;
     	}
     	return false;
 
@@ -79,7 +63,20 @@ public class ListaDestructores {
     	return false;
 
     }
-	
+    public boolean colisionProyectilNave(Nave nave) {
+		NodoDestructor hashirama = primero;
+    	
+    	while(hashirama != null) {
+    		if(colision2(hashirama.destructor.proyectil.x, hashirama.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
+    			hashirama.destructor.borrarMunicion();
+    			nave.destruirNave();
+    			return true;		
+    		}
+    		hashirama = hashirama.siguiente;
+    	}
+    	return false;
+
+    }
 	public boolean estaVacia() {
 		if(this.primero == null) {
 			return true;

@@ -1,6 +1,9 @@
 package juego;
 import java.awt.Image;
 import java.util.Random;
+
+import javax.sound.sampled.Clip;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -15,6 +18,7 @@ public class Destructor {
 	int velocidadRayo = 10;
 	Ion proyectil;
 	boolean exploto;
+	private Clip DisparoDestructor;
 	
 	Image img3;
 	
@@ -28,6 +32,7 @@ public class Destructor {
 		this.disparando=false;
 		img3 = Herramientas.cargarImagen("monstruo.png");
 		this.exploto = false;
+		this.DisparoDestructor=Herramientas.cargarSonido("shootdestructor.wav");
 	}
 	
 	// Getters de x e y de destructor
@@ -118,7 +123,7 @@ public class Destructor {
 	
 	// Funcion booleana para saber si estan en pantalla
 	public boolean enPantalla () {
-		if(this.proyectil.getY()-20>600) {
+		if(this.proyectil.getY()-80>600) {
 			borrarMunicion();
 			return false;
 		}else {
@@ -166,6 +171,8 @@ public class Destructor {
 		this.exploto = true;
 	}
 	
-
+	public void sonidoDestructorDisparo() {
+		DisparoDestructor.loop(1);
+	}
 	
 }
