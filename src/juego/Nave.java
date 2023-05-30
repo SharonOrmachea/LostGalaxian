@@ -9,17 +9,16 @@ import entorno.Herramientas;
 public class Nave 
 {
 	// Variables de instancia
-	boolean disparando;
-	private Entorno entorno;
-	Bala municion;
-	private int	entornoAncho;
-	private double naveX;
-	private double naveY;
-	public double naveAncho;
-	private double angulo;
-	private Image  img1;
-	//private Image img2;
-	//private int velocidadDisparo = 10;
+		boolean disparando;
+		int	entornoAncho;
+		double naveX;
+		double naveY;
+		double naveAncho;
+		double angulo;
+		boolean destruida;
+		Entorno entorno;
+		Bala municion;
+		Image img1;
 
 	public Nave(Entorno entorno) 
 	{
@@ -31,7 +30,7 @@ public class Nave
 		this.naveY = 560;
 		this.img1 = Herramientas.cargarImagen("nave.png");
 		this.naveAncho = 30;
-		//img2 = Herramientas.cargarImagen("navee.png");
+		this.destruida = false;
 		
 	}
 	public double naveGetX() {
@@ -87,6 +86,11 @@ public class Nave
 	public void borrarMunicion() {
 		this.disparando=false;
 		this.municion=null;
-		System.out.println("seb orro la municion");
+	}
+	
+	public void destruirNave() {
+		this.img1 = Herramientas.cargarImagen("Nave-Explosion.png");
+		this.destruida = true;
+		System.out.println("Game Over");
 	}
 }

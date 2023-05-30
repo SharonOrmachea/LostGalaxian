@@ -1,20 +1,20 @@
 package juego;
-import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
 import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Destructor {
-	public double x;
-	public double y;
-	public double angulo;
-	public boolean disparando;
+	double x;
+	double y;
+	double angulo;
+	boolean disparando;
 	Entorno entorno;
-	private int alto;
-	private int ancho = 30;
-	private int velocidadRayo = 10;
-	public Ion proyectil;
+	int alto;
+	int ancho = 30;
+	int velocidadRayo = 10;
+	Ion proyectil;
+	boolean exploto;
 	
 	Image img3;
 	
@@ -27,6 +27,7 @@ public class Destructor {
 		this.entorno=entorno;
 		this.disparando=false;
 		img3 = Herramientas.cargarImagen("monstruo.png");
+		this.exploto = false;
 	}
 	
 	// Getters de x e y de destructor
@@ -88,7 +89,6 @@ public class Destructor {
 			entorno.dibujarImagen(img3, this.x, this.y, this.angulo, 0.1);
 			this.girar();
 			this.caer(this.x, this.y);
-			System.out.println("Aparicion destructor");
 	}
 	
 	// Funcion que cambia la trayectoria del destructor
@@ -160,6 +160,10 @@ public class Destructor {
 		
 		return colisionIzquierda || colisionDerecha;
 		
+	}
+	
+	public void exploto() {
+		this.exploto = true;
 	}
 	
 

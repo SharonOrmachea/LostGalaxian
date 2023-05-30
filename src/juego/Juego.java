@@ -74,7 +74,6 @@ public class Juego extends InterfaceJuego {
 	
 	
 	public void disparoDestructor() {
-		System.out.println("inicio disparo");
 		NodoDestructor actual = destructores.primero;
 		
 		while(actual != null) {
@@ -109,30 +108,23 @@ public class Juego extends InterfaceJuego {
 		nave.dibujarse(entorno);
 		
 		for(int i = 0; i < this.listaMeteoritos.longitud; i++) {
-			//listaMeteoritos.cabeza.meteorito.dibujarse(entorno);
 			Nodo nodoActual = listaMeteoritos.cabeza;
 	        while (nodoActual != null) {
-	            // Haz algo con el nodo actual
 	            nodoActual.meteorito.dibujarse(entorno);
-	            /*
-	            if(colision(nodoActual.meteorito.x, nodoActual.meteorito.y, nave.naveGetX(), nave.naveGetY(), 1)) {
-	            	System.out.println("METEORITO COLISIONA CON NAVE");
-	            }*/
-	            // Avanza al siguiente nodo
 	            nodoActual = nodoActual.siguiente; 
 	        }
 		}
 		
-		
-		
-		disparoDestructor();
 		if(this.nave.disparando) {
-			if(listaMeteoritos.colisionMeteorito_Bala(nave.municion)){
+			if(listaMeteoritos.colisionMeteoritoBala(nave.municion)){
 				nave.borrarMunicion();
 			}		
 		}
 		
+		listaMeteoritos.colisionConNave(nave);		
 		
+		disparoDestructor();
+		destructores.colisionConNave(nave);
 		
 		for(int i = 0; i < this.destructores.largo; i++) {
 			NodoDestructor destructorActual = destructores.primero;
@@ -170,7 +162,7 @@ public class Juego extends InterfaceJuego {
 				NodoDestructor actual1 = destructores.primero;
 				while(actual1 != null) {
 					if(actual.destructor.hayColision(actual1.destructor)) {
-						System.out.println("COLISIOOOOOOOOOOON");
+						//System.out.println("COLISIOOOOOOOOOOON");
 						actual.destructor.cambiarTrayectoria();
 					}
 					actual1 = actual1.siguiente;
@@ -179,15 +171,15 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		
-		if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)|| this.entorno.estaPresionada('a'))
-			nave.moverIzquierda();
-		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d'))
-			nave.moverDerecha();
-		if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
-			nave.disparar();
-			nave.moverDisparo();
-		
-			
+		if(!nave.destruida) {
+			if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA) || this.entorno.estaPresionada('a'))
+				nave.moverIzquierda();
+			if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA) || this.entorno.estaPresionada('d'))
+				nave.moverDerecha();
+			if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
+				nave.disparar();
+				nave.moverDisparo();	
+		}
 	}
 	
 

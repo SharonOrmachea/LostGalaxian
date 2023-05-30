@@ -1,6 +1,5 @@
 package juego;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.util.Random;
 import entorno.Entorno;
@@ -17,7 +16,6 @@ public class Meteorito {
 	double angulo;
 	boolean exploto;
 	Image img;
-	
 	Entorno entorno;
 	Bala municion;
 	Nave nave;
@@ -29,7 +27,6 @@ public class Meteorito {
 		this.ancho = 30;
 		this.alto = 30;
 		this.exploto = false;
-		
 		img = Herramientas.cargarImagen("Meteorito.png");
 		
 	}
@@ -59,17 +56,11 @@ public class Meteorito {
 		}	
 		
 	}
-	
-	public void circulo(Entorno entorno) {
-		//entorno.dibujarCirculo(this.x, this.y, 34, Color.cyan);
-		entorno.dibujarRectangulo(this.x, this.y, 30, 30, this.angulo, Color.pink);
 
-	}
 	
 	public void dibujarse(Entorno entorno){
 		//entorno.dibujarCirculo(this.x, this.y, 34, Color.black);
 		if(!this.exploto) {
-			this.circulo(entorno);
 			entorno.dibujarImagen(img, this.x, this.y, this.angulo, 0.1);
 			this.girar();
 			this.caer(this.x, this.y);	
@@ -80,7 +71,6 @@ public class Meteorito {
 	}
 	
 	public void exploto() {
-		img = Herramientas.cargarImagen("Meteorito-Explosion.png");
 		this.exploto = true;
 	}
 	
