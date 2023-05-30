@@ -47,11 +47,9 @@ public class ListaMeteoritos {
     			eliminarMeteorito(hashirama.meteorito);
     			return true;		
     		}
-    		hashirama = hashirama.siguiente;
-    		
+    		hashirama = hashirama.siguiente;	
     	}
     	return false;
-
     }
     
     public boolean colisionConNave(Nave nave) {

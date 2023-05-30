@@ -16,8 +16,6 @@ public class Juego extends InterfaceJuego {
 	
 	private ListaMeteoritos listaMeteoritos;
 	
-	//private Destructor[] destructor;
-	
 	private ListaDestructores destructores;
 	
 	Bala municion;
@@ -43,9 +41,11 @@ public class Juego extends InterfaceJuego {
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
+	
 	public Nave getNave() {
 		return this.nave;
 	}
+	
 	public void listaMeteorito() {
 		
 		Random random = new Random();
@@ -84,15 +84,6 @@ public class Juego extends InterfaceJuego {
 	
 	}
 	
-	public boolean colision(double x1, double y1, double x2, double y2, double dist) {
-		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
-	}
-	
-	
-	
-
-	
-
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
 	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
@@ -118,8 +109,14 @@ public class Juego extends InterfaceJuego {
 		if(this.nave.disparando) {
 			if(listaMeteoritos.colisionMeteoritoBala(nave.municion)){
 				nave.borrarMunicion();
-			}		
+			}
+			if(destructores.colisionDestructorBala(nave.municion)){
+				nave.borrarMunicion();
+			}
 		}
+		
+		// Disparo del destructor
+		
 		
 		listaMeteoritos.colisionConNave(nave);		
 		
@@ -133,10 +130,15 @@ public class Juego extends InterfaceJuego {
 				destructorActual.destructor.dibujarse(entorno);
 				if(destructorActual.destructor.getDisparando()) {
 					destructorActual.destructor.moverProyectil();
+					if(destructorActual.destructor.proyectil != null && destructores.colision2(destructorActual.destructor.proyectil.x, destructorActual.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
+						destructores.colisionProyectilNave(nave);
+						destructorActual.destructor.borrarMunicion();
+					}
 				}
 				if(destructorActual.destructor.colisionaConEntorno(entorno)) {
 					destructorActual.destructor.cambiarTrayectoria();
 				}
+				
 				
 				destructorActual = destructorActual.siguiente;
 				}
