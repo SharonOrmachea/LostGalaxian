@@ -38,29 +38,11 @@ public class ListaMeteoritos {
 		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
 	}
     
-    public boolean colisionMeteoritoBala(Bala disparo) {
-    	Nodo hashirama = cabeza;
-    	
-    	while(hashirama != null) {
-    		if(colision2(hashirama.meteorito.x, hashirama.meteorito.y, disparo.x, disparo.y, 20)) {
-    			hashirama.meteorito.exploto();
-    			eliminarMeteorito(hashirama.meteorito);
-    			return true;		
-    		}
-    		hashirama = hashirama.siguiente;
-    		
-    	}
-    	return false;
-
-    }
-    
     public boolean colisionConNave(Nave nave) {
     	Nodo hashirama = cabeza;
     	
     	while(hashirama != null) {
     		if(colision2(hashirama.meteorito.x, hashirama.meteorito.y, nave.naveX, nave.naveY, 50)) {
-    			hashirama.meteorito.exploto();
-    			eliminarMeteorito(hashirama.meteorito);
     			nave.destruirNave();
     			return true;
     		}
@@ -68,32 +50,6 @@ public class ListaMeteoritos {
     	}
     	return false;
 
-    }
-    
-    public void eliminarMeteorito(Meteorito meteorito) {
-    	Nodo nodoActual = cabeza;
-        Nodo nodoAnterior = null;
-        // Buscar el nodo que contiene el objeto Meteorito a eliminar
-        while (nodoActual != null) {
-            if (nodoActual.meteorito == meteorito) {
-                break;
-            }
-            nodoAnterior = nodoActual;
-            nodoActual = nodoActual.siguiente;
-        }
-
-        // Si se encuentra el nodo
-        if (nodoActual != null) {
-            // Si es el primer nodo de la lista
-            if (nodoAnterior == null) {
-            	cabeza = nodoActual.siguiente;
-            } else {
-            	nodoAnterior.siguiente = nodoActual.siguiente;
-            }
-
-            // Liberar la referencia al nodo eliminado
-            nodoActual.siguiente = null;
-        }
     }
 
 }

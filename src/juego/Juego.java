@@ -78,9 +78,32 @@ public class Juego extends InterfaceJuego {
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
-	public Nave getNave() {
-		return this.nave;
+
+	
+	/**
+	 * Durante el juego, el método tick() será ejecutado en cada instante y 
+	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
+	 * actualizar el estado interno del juego para simular el paso del tiempo 
+	 * (ver el enunciado del TP para mayor detalle).
+	 */
+	
+	
+	public void tick() {
+		// Procesamiento de un instante de tiempo
+		iniciarJuego();
 	}
+	
+	//Meteoritos -----------------------------------------------------------
+	private void generarMeteoritos() {
+		for(int i = 0; i < this.listaMeteoritos.longitud; i++) {
+			Nodo nodoActual = listaMeteoritos.cabeza;
+			while (nodoActual != null) {
+				nodoActual.meteorito.dibujarse(entorno);
+				nodoActual = nodoActual.siguiente; 
+			}
+		}
+	}
+	
 	public void listaMeteorito() {
 		
 		Random random = new Random();
@@ -93,9 +116,9 @@ public class Juego extends InterfaceJuego {
 			listaMeteoritos.agregarMeteorito(asteroide);
 		}
 		
-	}	
+	}
 	
-	// LISTA DESTRUCTORES
+	//Destructores----------------------------------------------------------------------------
 	public void listaDestructores() {
 		int ejeY = -50;
 		Random random = new Random();
@@ -106,89 +129,7 @@ public class Juego extends InterfaceJuego {
 			destructores.agregarDestructor(destructor);
 		}		
 	}
-	
-	
-	public void disparoDestructor() {
-		NodoDestructor actual = destructores.primero;
-		
-		while(actual != null) {
-			actual.destructor.disparar();
-			actual.destructor.moverProyectil();
-			actual = actual.siguiente;
-		}
-	
-	}
-	
-	public boolean colision(double x1, double y1, double x2, double y2, double dist) {
-		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
-	}
-	
-	private void mostrarIntro()
-	{
-		Intro.loop(1);															// Reproducir el audio de Intro
-		entorno.dibujarImagen(intro, entorno.ancho()/2, entorno.alto()/2, 0);	// Muestra la imagen del Intro en pantalla
-		if(entorno.estaPresionada(entorno.TECLA_ENTER))							// Si el jugador presiona enter
-			{
-			enJuego=true;														// Se inicia el juego
-			Intro.stop();														// Se detiene la musica del intro
-			}
-		
-	}
-	private void gameOver() 
-	{
-		if (yGameOver<300)															// Mientras la imagen de game over haciendo bajar la imagen
-			yGameOver=yGameOver+5;													// ir bajandola 5px por Tick
-		entorno.dibujarImagen(gameover, (entorno.ancho()/2), yGameOver, 0);			// Dibujar la imagen en la posicion establecida
-		MusicaFondo.stop();															// Detener la musica del juego
-		GameOver.start();															// Iniciar el audio de GameOver
-		entorno.cambiarFont("Arial black", 18, Color.green);						// Cambiar la tipografia
-		entorno.escribirTexto(cantidadDeEnemigos + " enemigos eliminados", 50, 595);	// Se muestra el numero del nivel Completado
-			
-		if(entorno.estaPresionada(entorno.TECLA_ENTER))								// Si el jugador presiona la tecla enter
-		{
-			reiniciar();															// Se reinicia el juego
-			cantidadDeEnemigos=0;														// Se reinicia el contador de enemigos
-		}
-		
-	}
-	private void reiniciar()
-	{
-		GameOver.stop();					// Detiene el audio de GameOver
-		nave.reestablecerVidas();		// Reestablece la cantidad de vidas del jugador
-		nave.posicionInicial();			// Setea al jugador en la posicion inicial
-		MusicaFondo.loop(100000);			// Inicia la reproduccion de la musica de fondo
-		this.contador=0;
-		this.randomNumber=1;					// Reinicia los valores de las variables
-		this.yGameOver=-300;
-		
-		generarMeteoritos();
-		
-		generarDestructores();
-		
-	}
-	private void nivelCompletado()
-	{
-		
-		entorno.dibujarImagen(end, entorno.ancho()/2, entorno.alto()/2, 0);	// Dibuja la imagen en el centro de la pantalla
-		entorno.cambiarFont("Arial black", 18, Color.green);						// Cambiar la tipografia
-		entorno.escribirTexto(cantidadDeEnemigos + " enemigos eliminados", 50, 595);	// Se muestra el numero del nivel Completado
-		if(entorno.estaPresionada(entorno.TECLA_ENTER))						// Si el jugador presiona enter
-		{										
-			reiniciar();	// Reiniciar el juego
-			cantidadDeEnemigos=0;
-		}
-		
-		
-	}
-	private void generarMeteoritos() {
-		for(int i = 0; i < this.listaMeteoritos.longitud; i++) {
-			Nodo nodoActual = listaMeteoritos.cabeza;
-			while (nodoActual != null) {
-				nodoActual.meteorito.dibujarse(entorno);
-				nodoActual = nodoActual.siguiente; 
-			}
-		}
-	}
+	/*
 	private void generarDestructores() {
 		for(int i = 0; i < this.destructores.largo; i++) {
 			NodoDestructor actual = destructores.primero;
@@ -204,24 +145,75 @@ public class Juego extends InterfaceJuego {
 				actual = actual.siguiente;
 			}
 		}
-	}
-	private boolean jugadorGano() {
-		if(listaMeteoritos.cabeza==null&&destructores.primero==null) {
-			return true;
-		}else {
-			return false;
+	}*/
+	
+	public void dibujarDestructor() {
+		for(int i = 0; i < this.destructores.largo; i++) {
+			NodoDestructor destructorActual = destructores.primero;
+				
+			while(destructorActual != null) {
+				destructorActual.destructor.dibujarse(entorno);
+				if(destructorActual.destructor.getDisparando()) {
+					destructorActual.destructor.moverProyectil();
+					if(destructorActual.destructor.proyectil != null && destructores.colision2(destructorActual.destructor.proyectil.x, destructorActual.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
+						destructores.colisionProyectilNave(nave);
+						destructorActual.destructor.borrarMunicion();
+					}
+				}
+				
+				
+				
+				destructorActual = destructorActual.siguiente;
+				}
 		}
 	}
-	/**
-	 * Durante el juego, el método tick() será ejecutado en cada instante y 
-	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
-	 * actualizar el estado interno del juego para simular el paso del tiempo 
-	 * (ver el enunciado del TP para mayor detalle).
-	 */
-	public void tick() {
-		// Procesamiento de un instante de tiempo
+	
+	public void disparoDestructor() {
+		NodoDestructor actual = destructores.primero;
 		
-		// ...
+		while(actual != null) {
+			actual.destructor.disparar();
+			actual.destructor.moverProyectil();
+			actual = actual.siguiente;
+		}
+	
+	}
+	
+	
+	// Nuestra Nave -------------------------------------------------------------------------------------------------------------------
+	public void naveMovimiento() {
+		if(!nave.destruida) {
+			if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA) || this.entorno.estaPresionada('a'))
+				nave.moverIzquierda();
+			if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA) || this.entorno.estaPresionada('d'))
+				nave.moverDerecha();
+			if (this.entorno.sePresiono(entorno.TECLA_ESPACIO))
+				nave.disparar();
+				nave.moverDisparo();	
+		}
+	}
+	
+	public void borrarMunicionNave() {
+		if(this.nave.disparando && destructores.colisionDestructorBala(nave.municion)) {
+			nave.borrarMunicion();
+		}
+	}
+	
+	public void restarVida() {
+		if(listaMeteoritos.colisionConNave(nave)) {
+			nave.restarVida();
+			nave.posicionInicial();
+		}
+	
+		
+		if(destructores.colisionConNave(nave)) {
+			nave.restarVida();
+			nave.posicionInicial();
+		}
+	}
+	
+	//Juego -----------------------------------------------------------------------------------------------
+	public void iniciarJuego() {
 		if(!enJuego)								// Si el juego no ha comenzado
 		{
 			mostrarIntro();
@@ -242,69 +234,12 @@ public class Juego extends InterfaceJuego {
 					
 				
 					nave.dibujarse(entorno);
-					
+					naveMovimiento();
 					generarMeteoritos();
-					
-					if(this.nave.disparando) {
-						if(listaMeteoritos.colisionMeteoritoBala(nave.municion)){
-							nave.borrarMunicion();
-							this.cantidadDeEnemigos++;
-						}	
-					}
-					if(this.nave.disparando) {
-						if(destructores.colisionDestructorBala(nave.municion)){
-							nave.borrarMunicion();
-							this.cantidadDeEnemigos++;
-						}
-					}
-				
-					if(listaMeteoritos.colisionConNave(nave)) {
-						nave.restarVida();
-						nave.posicionInicial();
-					}
-				
+					dibujarDestructor();
+					restarVida();
+					borrarMunicionNave();
 					disparoDestructor();
-					if(destructores.colisionConNave(nave)) {
-						nave.restarVida();
-						nave.posicionInicial();
-					}
-				
-					for(int i = 0; i < this.destructores.largo; i++) {
-						NodoDestructor destructorActual = destructores.primero;
-						
-						while(destructorActual != null) {
-							destructorActual.destructor.dibujarse(entorno);
-							if(destructorActual.destructor.getDisparando()) {
-								destructorActual.destructor.sonidoDestructorDisparo();
-								destructorActual.destructor.moverProyectil();
-								if(destructorActual.destructor.proyectil != null && destructores.colision2(destructorActual.destructor.proyectil.x, destructorActual.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
-									destructores.colisionProyectilNave(nave);
-									destructorActual.destructor.borrarMunicion();
-									nave.restarVida();
-									nave.posicionInicial();
-								}
-							}
-							if(destructorActual.destructor.colisionaConEntorno(entorno)) {
-								destructorActual.destructor.cambiarTrayectoria();
-							}
-						
-							destructorActual = destructorActual.siguiente;
-							}
-					}
-					
-					generarDestructores();
-				
-					if(!nave.destruida) {
-						if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA) || this.entorno.estaPresionada('a'))
-							nave.moverIzquierda();
-						if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA) || this.entorno.estaPresionada('d'))
-							nave.moverDerecha();
-						if (this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-							nave.disparar();
-							nave.sonidoDisparo();
-							}
-							nave.moverDisparo();
-						}
 				}
 				else {
 					gameOver();	//juego terminado
@@ -316,7 +251,75 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 	
+	private void mostrarIntro()
+	{
+		Intro.loop(1);															// Reproducir el audio de Intro
+		entorno.dibujarImagen(intro, entorno.ancho()/2, entorno.alto()/2, 0);	// Muestra la imagen del Intro en pantalla
+		if(entorno.estaPresionada(entorno.TECLA_ENTER))							// Si el jugador presiona enter
+			{
+			enJuego=true;														// Se inicia el juego
+			Intro.stop();														// Se detiene la musica del intro
+			}
+		
+	}
 	
+	private void gameOver() 
+	{
+		if (yGameOver<300)															// Mientras la imagen de game over haciendo bajar la imagen
+			yGameOver=yGameOver+5;													// ir bajandola 5px por Tick
+		entorno.dibujarImagen(gameover, (entorno.ancho()/2), yGameOver, 0);			// Dibujar la imagen en la posicion establecida
+		MusicaFondo.stop();															// Detener la musica del juego
+		GameOver.start();															// Iniciar el audio de GameOver
+		entorno.cambiarFont("Arial black", 18, Color.green);						// Cambiar la tipografia
+		entorno.escribirTexto(cantidadDeEnemigos + " enemigos eliminados", 50, 595);	// Se muestra el numero del nivel Completado
+			
+		if(entorno.estaPresionada(entorno.TECLA_ENTER))								// Si el jugador presiona la tecla enter
+		{
+			reiniciar();															// Se reinicia el juego
+			cantidadDeEnemigos=0;														// Se reinicia el contador de enemigos
+		}
+		
+	}
+	
+	private void reiniciar()
+	{
+		GameOver.stop();					// Detiene el audio de GameOver
+		nave.reestablecerVidas();		// Reestablece la cantidad de vidas del jugador
+		nave.posicionInicial();			// Setea al jugador en la posicion inicial
+		MusicaFondo.loop(100000);			// Inicia la reproduccion de la musica de fondo
+		this.contador=0;
+		this.randomNumber=1;					// Reinicia los valores de las variables
+		this.yGameOver=-300;
+		
+		generarMeteoritos();
+		dibujarDestructor();
+		
+		//generarDestructores();
+		
+	}
+	
+	private void nivelCompletado()
+	{
+		
+		entorno.dibujarImagen(end, entorno.ancho()/2, entorno.alto()/2, 0);	// Dibuja la imagen en el centro de la pantalla
+		entorno.cambiarFont("Arial black", 18, Color.green);						// Cambiar la tipografia
+		entorno.escribirTexto(cantidadDeEnemigos + " enemigos eliminados", 50, 595);	// Se muestra el numero del nivel Completado
+		if(entorno.estaPresionada(entorno.TECLA_ENTER))						// Si el jugador presiona enter
+		{										
+			reiniciar();	// Reiniciar el juego
+			cantidadDeEnemigos=0;
+		}
+		
+		
+	}
+	
+	private boolean jugadorGano() {
+		if(listaMeteoritos.cabeza==null&&destructores.primero==null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 		
 		@SuppressWarnings("unused")

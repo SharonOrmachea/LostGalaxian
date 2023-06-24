@@ -97,7 +97,7 @@ public class Nave
 	}
 	
 	public void destruirNave() {
-		this.img1=explosion;
+		this.img1= this.explosion;
 		this.destruida = true;
 		System.out.println("Game Over");
 	}

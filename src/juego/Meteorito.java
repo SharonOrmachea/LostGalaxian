@@ -15,6 +15,9 @@ public class Meteorito {
 	int alto;
 	double angulo;
 	boolean exploto;
+	double velX;
+	double velY;
+	double direccionX;
 	Image img;
 	Entorno entorno;
 	Bala municion;
@@ -27,6 +30,9 @@ public class Meteorito {
 		this.ancho = 30;
 		this.alto = 30;
 		this.exploto = false;
+		this.velX = 0.2;
+		this.velY = 1;
+		this.direccionX = 1;
 		img = Herramientas.cargarImagen("Meteorito.png");
 		
 	}
@@ -41,19 +47,18 @@ public class Meteorito {
 	
 	public void caer(double x, double y) {
 		
-        this.y += Math.sin(2)*1;
-        
-        if(randomNumber == 1) {
-        	this.x += Math.cos(this.angulo)*0.2;
-        } else {
-        	this.x -= Math.cos(this.angulo)*0.2;
-
-        }
+		this.y += velY;
 		
-		if(this.y >= 650 || this.x >= 850 || this.x <= -10) {
+		if (this.y >= 650 || this.x >= 850 || this.x <= -10) {
 			this.x = (int) (1400 - 1800*Math.random());
-			this.y = 0;
-		}	
+            this.y = -30; // Regenerar en la parte superior de la pantalla
+
+            // Calcular dirección aleatoria
+            if (Math.random() > 0.5) {
+                this.velX *= -1; // Invertir dirección si el número aleatorio es mayor a 0.5
+            }
+        }
+		this.x += velX;
 		
 	}
 
