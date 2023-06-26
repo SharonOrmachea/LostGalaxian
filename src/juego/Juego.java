@@ -6,6 +6,7 @@ import entorno.InterfaceJuego;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.util.ArrayList;
 //import java.awt.Color;
 //import java.awt.Rectangle;
 import java.util.Random;
@@ -36,13 +37,11 @@ public class Juego extends InterfaceJuego {
 	
 	private ListaMeteoritos listaMeteoritos;
 	
-
-	
-	private ListaDestructores destructores;
+	private ArrayList<Destructor> ListaDestructores = new ArrayList<>();
 	
 	Bala municion;
 	
-	Vidas vidasNave;
+	//Vidas vidasNave;
 	
 	Random random = new Random();
 	int randomNumber = random.nextInt(3) + 4;
@@ -65,12 +64,11 @@ public class Juego extends InterfaceJuego {
 			Intro=Herramientas.cargarSonido("Galaga Theme.wav");
 			GameOver=Herramientas.cargarSonido("Game Over sound effect.wav");	
 			
-		this.vidasNave = new Vidas (nave);
+		//this.vidasNave = new Vidas (nave);
 		
 		this.nave = new Nave(this.entorno);
 		
 		listaMeteoritos = new ListaMeteoritos();
-		destructores = new ListaDestructores();
 		
 		listaMeteorito();
 		listaDestructores();
@@ -122,59 +120,43 @@ public class Juego extends InterfaceJuego {
 	public void listaDestructores() {
 		int ejeY = -50;
 		Random random = new Random();
-			
+		
 		for(int i = 0; i < 4; i++) {
 			int randomNumberEjeX = random.nextInt(600);
 			Destructor destructor = new Destructor(randomNumberEjeX, ejeY += 50, entorno);
-			destructores.agregarDestructor(destructor);
-		}		
+			ListaDestructores.add(destructor);
+			destructor.dibujarse(entorno);
+			destructor.disparar();
+			destructor.moverProyectil();
+		}	
 	}
-	/*
-	private void generarDestructores() {
-		for(int i = 0; i < this.destructores.largo; i++) {
-			NodoDestructor actual = destructores.primero;
-		
-			while(actual != null) {
-				NodoDestructor actual1 = destructores.primero;
-				while(actual1 != null) {
-					if(actual.destructor.hayColision(actual1.destructor)) {
-						actual.destructor.cambiarTrayectoria();
-					}
-					actual1 = actual1.siguiente;
-				}
-				actual = actual.siguiente;
-			}
-		}
-	}*/
+
 	
 	public void dibujarDestructor() {
-		for(int i = 0; i < this.destructores.largo; i++) {
-			NodoDestructor destructorActual = destructores.primero;
-				
-			while(destructorActual != null) {
-				destructorActual.destructor.dibujarse(entorno);
-				if(destructorActual.destructor.getDisparando()) {
-					destructorActual.destructor.moverProyectil();
-					if(destructorActual.destructor.proyectil != null && destructores.colision2(destructorActual.destructor.proyectil.x, destructorActual.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
-						destructores.colisionProyectilNave(nave);
-						destructorActual.destructor.borrarMunicion();
-					}
+		for(int i = 0; i < this.ListaDestructores.size(); i++) {
+					
+			for(int j = 0; j < this.ListaDestructores.size(); j++) {
+				if(ListaDestructores.get(i).hayColision(ListaDestructores.get(j))) {
+					ListaDestructores.get(i).cambiarTrayectoria();
 				}
-				
-				
-				
-				destructorActual = destructorActual.siguiente;
-				}
+			}
+					
 		}
 	}
 	
 	public void disparoDestructor() {
-		NodoDestructor actual = destructores.primero;
-		
-		while(actual != null) {
-			actual.destructor.disparar();
-			actual.destructor.moverProyectil();
-			actual = actual.siguiente;
+		for(int i = 0; i < this.ListaDestructores.size(); i++) {
+			ListaDestructores.get(i).dibujarse(entorno);
+			if(ListaDestructores.get(i).getDisparando()) {
+				ListaDestructores.get(i).sonidoDestructorDisparo();
+				ListaDestructores.get(i).moverProyectil();
+				if(ListaDestructores.get(i).proyectil != null && ListaDestructores.get(i).colision2(ListaDestructores.get(i).proyectil.x, ListaDestructores.get(i).proyectil.y, nave.naveX, nave.naveY, 20)) {
+					ListaDestructores.get(i).colisionProyectilNave(nave);
+					ListaDestructores.get(i).borrarMunicion();
+					nave.restarVida();
+					nave.posicionInicial();
+				}
+			}
 		}
 	
 	}
@@ -194,23 +176,29 @@ public class Juego extends InterfaceJuego {
 	}
 	
 	public void borrarMunicionNave() {
-		if(this.nave.disparando && destructores.colisionDestructorBala(nave.municion)) {
-			nave.borrarMunicion();
+		for(int i = 0; i < ListaDestructores.size(); i++) {
+			if(this.nave.disparando) {
+				if(ListaDestructores.get(i).colisionDestructorBala(nave.municion)){
+					nave.borrarMunicion();
+					ListaDestructores.remove(ListaDestructores.get(i));
+					this.cantidadDeEnemigos++;
+				}
+			}
 		}
 	}
-	
+	/*
 	public void restarVida() {
 		if(listaMeteoritos.colisionConNave(nave)) {
 			nave.restarVida();
 			nave.posicionInicial();
 		}
 	
-		
+		/*
 		if(destructores.colisionConNave(nave)) {
 			nave.restarVida();
 			nave.posicionInicial();
 		}
-	}
+	}*/
 	
 	//Juego -----------------------------------------------------------------------------------------------
 	public void iniciarJuego() {
@@ -225,7 +213,7 @@ public class Juego extends InterfaceJuego {
 			if(!jugadorGano()) {
 				if(nave.tieneVidas()) {
 						
-					vidasNave.dibujar(nave, entorno);										// Se dibuja en pantalla la cantidad de vidas del jugador
+					//vidasNave.dibujar(nave, entorno);										// Se dibuja en pantalla la cantidad de vidas del jugador
 					MusicaFondo.loop(100000);												// Inicia el audio de fondo			
 					entorno.dibujarImagen(fondo, entorno.ancho()/2, entorno.alto()/2, 0);	//dibuja el fondo
 					
@@ -237,7 +225,7 @@ public class Juego extends InterfaceJuego {
 					naveMovimiento();
 					generarMeteoritos();
 					dibujarDestructor();
-					restarVida();
+					//restarVida();
 					borrarMunicionNave();
 					disparoDestructor();
 				}
@@ -314,7 +302,7 @@ public class Juego extends InterfaceJuego {
 	}
 	
 	private boolean jugadorGano() {
-		if(listaMeteoritos.cabeza==null&&destructores.primero==null) {
+		if(listaMeteoritos.cabeza==null&& ListaDestructores.isEmpty()) {
 			return true;
 		}else {
 			return false;
