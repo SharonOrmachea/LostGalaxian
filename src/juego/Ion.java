@@ -1,32 +1,21 @@
 package juego;
 import java.awt.Color;
-import java.awt.Image;
-
 import entorno.Entorno;
-import entorno.Herramientas;
-import juego.Nave;
 
 public class Ion {
-	public double x;
-	public double y;
-	private double alto;
-	private double ancho;
-	private double angulo;
-	private double velocidad;
-	private double escala;
-	//Entorno entorno;
+	double x;
+	double y;
+	double alto;
+	double ancho;
+	double angulo;
+
 	public Ion(double x, double y, double alto, double ancho, double velocidad) {
 		this.angulo = 0;
-		this.escala= 1;
 		this.x = x;
 		this.y = y;
 		this.alto = alto;
 		this.ancho = ancho;
-		this.velocidad = velocidad;
-		//this.entorno=entorno;
-		
 	}
-	
 	
 	public void dibujar(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, this.angulo, Color.red);
@@ -35,6 +24,7 @@ public class Ion {
 	public double getY() {
 		return this.y;
 	}
+	
 	public double getX() {
 		return this.x;
 	}

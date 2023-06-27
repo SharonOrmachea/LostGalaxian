@@ -1,20 +1,25 @@
 package juego;
-import java.awt.Color;
+
 import java.awt.Image;
 import java.util.Random;
+
+import javax.sound.sampled.Clip;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Destructor {
-	public double x;
-	public double y;
-	public double angulo;
-	public boolean disparando;
+	double x;
+	double y;
+	double angulo;
+	boolean disparando;
 	Entorno entorno;
-	private int alto;
-	private int ancho = 30;
-	private int velocidadRayo = 10;
-	public Ion proyectil;
+	int alto;
+	int ancho = 30;
+	int velocidadRayo = 10;
+	Ion proyectil;
+	boolean exploto;
+	private Clip DisparoDestructor;
 	
 	Image img3;
 	
@@ -27,6 +32,8 @@ public class Destructor {
 		this.entorno=entorno;
 		this.disparando=false;
 		img3 = Herramientas.cargarImagen("monstruo.png");
+		this.exploto = false;
+		this.DisparoDestructor=Herramientas.cargarSonido("shootdestructor.wav");
 	}
 	
 	// Getters de x e y de destructor
@@ -78,17 +85,10 @@ public class Destructor {
 		
 	}
 	
-	// Funcion que hace girar al destructor
-	public void girar() {
-		this.angulo += 0.01;
-	}
-	
 	// Funcion que dibuja al destructor
 	public void dibujarse(Entorno entorno) {
 			entorno.dibujarImagen(img3, this.x, this.y, this.angulo, 0.1);
-			this.girar();
 			this.caer(this.x, this.y);
-			System.out.println("Aparicion destructor");
 	}
 	
 	// Funcion que cambia la trayectoria del destructor
@@ -118,7 +118,7 @@ public class Destructor {
 	
 	// Funcion booleana para saber si estan en pantalla
 	public boolean enPantalla () {
-		if(this.proyectil.getY()-20>600) {
+		if(this.proyectil.getY()-80>600) {
 			borrarMunicion();
 			return false;
 		}else {
@@ -130,13 +130,13 @@ public class Destructor {
 		this.disparando=false;
 		this.proyectil=null;
 	} 
-	/*
+	
 	public boolean chocasteCon(Destructor destructor) {
 		return (this.destructorGetX() > destructor.destructorGetX() - destructor.destructorGetX() / 2) &&
 				(this.destructorGetX() < destructor.destructorGetX() + destructor.destructorGetX() / 2) &&
 				(this.destructorGetY() > destructor.destructorGetY() - destructor.destructorGetY() /2); 
 	}
-	*/
+	
 	public boolean getDisparando() {
 		return this.disparando;
 	}
@@ -162,6 +162,68 @@ public class Destructor {
 		
 	}
 	
-
+	public boolean colisionConOtroDestructor(Destructor destructor) {
+		if(this.hayColision(destructor)) {
+			this.cambiarTrayectoria();
+			return true;
+		} 
+		return false;
+	}
 	
+	public void exploto() {
+		this.exploto = true;
+	}
+	
+	public void sonidoDestructorDisparo() {
+		DisparoDestructor.loop(1);
+	}
+	
+	
+	public boolean colision2(double x1, double y1, double x2, double y2, double dist) {
+		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
+	}
+	
+	// CAMBIAR
+	public boolean colisionDestructorBala(Bala disparo) {
+    	
+		if(colision2(this.x, this.y, disparo.x, disparo.y, 20)) {
+			return true;
+		} 
+		return false;
+
+    }
+    
+	// CAMBIAR
+    public boolean colisionConNave(Nave nave) {
+    	
+    	if(colision2(this.x, this.y, nave.naveX, nave.naveY, 50)) {
+    		this.exploto();
+    		nave.destruirNave();
+    		return true;
+    	}
+    	return false;
+    	
+
+    }
+    
+    // CAMBIAR
+    public boolean colisionProyectilNave(Nave nave) {
+    	
+    	if(colision2(this.proyectil.x, this.proyectil.y, nave.naveX, nave.naveY, 20)) {
+    		this.borrarMunicion();
+    		nave.destruirNave();
+    		return true;
+    	} 
+    	return false;
+    }
+    
+    // HACER LA FUNCION EN MAIN, FUNCION JUEGO
+    /*
+	public boolean estaVacia() {
+		if(this.primero == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}*/
 }

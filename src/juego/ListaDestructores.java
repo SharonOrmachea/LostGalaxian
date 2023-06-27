@@ -1,5 +1,4 @@
 package juego;
-import entorno.Entorno;
 
 public class ListaDestructores {
 	
@@ -29,6 +28,55 @@ public class ListaDestructores {
         }
     }
 	
+	public boolean colision2(double x1, double y1, double x2, double y2, double dist) {
+		return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < dist * dist;
+	}
+	
+	public boolean colisionDestructorBala(Bala disparo) {
+		NodoDestructor hashirama = primero;
+    	
+    	while(hashirama != null) {
+    		if(colision2(hashirama.destructor.x, hashirama.destructor.y, disparo.x, disparo.y, 20)) {
+    			hashirama.destructor.exploto();
+    			quitar(hashirama.destructor);
+    			return true;		
+    		}
+    		hashirama = hashirama.siguiente;
+    		
+    	}
+    	return false;
+
+    }
+    
+    public boolean colisionConNave(Nave nave) {
+    	NodoDestructor hashirama = primero;
+    	
+    	while(hashirama != null) {
+    		if(colision2(hashirama.destructor.x, hashirama.destructor.y, nave.naveX, nave.naveY, 50)) {
+    			hashirama.destructor.exploto();
+    			quitar(hashirama.destructor);
+    			nave.destruirNave();
+    			return true;
+    		}
+    		hashirama = hashirama.siguiente;
+    	}
+    	return false;
+
+    }
+    public boolean colisionProyectilNave(Nave nave) {
+		NodoDestructor hashirama = primero;
+    	
+    	while(hashirama != null) {
+    		if(colision2(hashirama.destructor.proyectil.x, hashirama.destructor.proyectil.y, nave.naveX, nave.naveY, 20)) {
+    			hashirama.destructor.borrarMunicion();
+    			nave.destruirNave();
+    			return true;		
+    		}
+    		hashirama = hashirama.siguiente;
+    	}
+    	return false;
+
+    }
 	public boolean estaVacia() {
 		if(this.primero == null) {
 			return true;

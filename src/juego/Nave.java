@@ -3,23 +3,27 @@ package juego;
 import java.awt.Color;
 import java.awt.Image;
 
+import javax.sound.sampled.Clip;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Nave 
 {
 	// Variables de instancia
-	boolean disparando;
-	private Entorno entorno;
-	Bala municion;
-	private int	entornoAncho;
-	private double naveX;
-	private double naveY;
-	public double naveAncho;
-	private double angulo;
-	private Image  img1;
-	//private Image img2;
-	//private int velocidadDisparo = 10;
+		boolean disparando;
+		int	entornoAncho;
+		double naveX;
+		double naveY;
+		double naveAncho;
+		double angulo;
+		boolean destruida;
+		Entorno entorno;
+		Bala municion;
+		Image img1;
+		private Clip DisparoNave;
+		private int vidas;
+		Image explosion;
 
 	public Nave(Entorno entorno) 
 	{
@@ -31,8 +35,10 @@ public class Nave
 		this.naveY = 560;
 		this.img1 = Herramientas.cargarImagen("nave.png");
 		this.naveAncho = 30;
-		//img2 = Herramientas.cargarImagen("navee.png");
-		
+		this.destruida = false;
+		DisparoNave=Herramientas.cargarSonido("shootnave.wav");
+		this.vidas=3;
+		this.explosion=Herramientas.cargarImagen("explosion.gif");
 	}
 	public double naveGetX() {
 		return this.naveX;
@@ -44,7 +50,7 @@ public class Nave
 	
 	public void dibujarse(Entorno entorno)
 	{
-		entorno.dibujarTriangulo(this.naveX, this.naveY, 50, 30, this.angulo, Color.yellow);
+		entorno.dibujarTriangulo(this.naveX, this.naveY, 50, 30, this.angulo, Color.black);
 		entorno.dibujarImagen(img1, this.naveX, this.naveY, 0, 0.2);	
 	}
 	
@@ -52,14 +58,14 @@ public class Nave
 	public void moverDerecha() /* Mueve a nave a la derecha sin pasar del ancho de la ventana */
 	{
 		if(this.naveX+5+(this.naveAncho/2) <= this.entornoAncho)
-			this.naveX=this.naveX+3;
+			this.naveX=this.naveX+8;
 			//System.out.println("derecha");
 	}
 
 	public void moverIzquierda() // Mueve a nave a la izquierda sin pasar del ancho de la ventana
 	{
 		if(this.naveX-5-(this.naveAncho/2) >= 0)
-			this.naveX=this.naveX-3;
+			this.naveX=this.naveX-8;
 			//System.out.println("izquierda");
 	}
 	
@@ -67,6 +73,7 @@ public class Nave
 		if(!disparando) {
 			this.disparando=true;
 			this.municion=new Bala(this.naveGetX(),this.naveGetY()-60,30,50,3);
+			
 		}
 	}
 	
@@ -87,6 +94,39 @@ public class Nave
 	public void borrarMunicion() {
 		this.disparando=false;
 		this.municion=null;
-		System.out.println("seb orro la municion");
+	}
+	
+	public void destruirNave() {
+		this.img1= this.explosion;
+		this.destruida = true;
+		System.out.println("Game Over");
+	}
+	public void sonidoDisparo() {
+		DisparoNave.loop(1);
+	}
+	public boolean tieneVidas()
+	{
+		return this.vidas>0;
+	}
+
+	public void restarVida()
+	{
+		this.vidas--;
+	}
+	public void reestablecerVidas() 
+	{
+		this.vidas=3;
+		
+	}
+	public int getVidas() {
+		return vidas;
+	}
+	public void posicionInicial()
+	{
+		this.naveX=400;
+		this.naveY=560;
+		this.img1 = Herramientas.cargarImagen("nave.png");
+		this.destruida=false;
+		
 	}
 }
